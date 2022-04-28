@@ -1,24 +1,12 @@
-# README
+# Nishitetsu Bus Rails
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails application to provide a better web/mobile web interface to [Nishitetsu
+Bus](https://www.nishitetsu.jp/bus/) services.
 
-Things you may want to cover:
+## Developing
 
-* Ruby version
+`make up|down` to start/stop the development environment
 
-* System dependencies
+`make provision` if you change the Gemfile
 
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+`make shell|rails-c` run a terminal or rails console in the running development environment.
