@@ -17,17 +17,22 @@ Generate a secret key base:
 
 ```
 make shell
-rails secret
+rails secret   # Copy the value you get from this
+rails credentials:edit --environment production
 ```
 
-Copy that value for use as the SECRET_KEY_BASE value
+Add a line:
+```
+secret_key_base: [paste the value from rails secret]
+```
+
+Save and exit, and commit the new file `config/credentials/production.yml.enc`
 
 ```
 heroku apps:create nishibus
 heroku stack:set container
 heroku addons:create heroku-redis:hobby-dev -a nishibus
 heroku addons:create heroku-postgresql:hobby-dev -a nishibus
-heroku config:set SECRET_KEY_BASE=[value from rails secret]
 ```
 
 ### Heroku Deployment
