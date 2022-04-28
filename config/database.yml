@@ -80,7 +80,4 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
-  <<: *default
-  database: nishitetsu_bus_rails_production
-  username: nishitetsu_bus_rails
-  password: <%= ENV["NISHITETSU_BUS_RAILS_DATABASE_PASSWORD"] %>
+  url: <%= ENV["DATABASE_URL"] %>
