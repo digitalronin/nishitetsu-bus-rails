@@ -13,26 +13,36 @@ Bus](https://www.nishitetsu.jp/bus/) services.
 
 ## Heroku Setup
 
-Generate a secret key base:
-
-```
-make shell
-rails secret   # Copy the value you get from this
-rails credentials:edit --environment production
-```
-
-Add a line:
-```
-secret_key_base: [paste the value from rails secret]
-```
-
-Save and exit, and commit the new file `config/credentials/production.yml.enc`
-
 ```
 heroku apps:create nishibus
 heroku stack:set container
 heroku addons:create heroku-redis:hobby-dev -a nishibus
 heroku addons:create heroku-postgresql:hobby-dev -a nishibus
+```
+
+Set up production credentials:
+
+1. Generate a random string, 32 characters long. This is the `master key`. Store it in `.env`
+
+2. Set the `secret_key_base` in the production credentials file:
+
+```
+make shell
+. .env
+rails credentials:edit --environment production
+```
+
+Edit the file and add this line:
+
+```
+secret_key_base: [value from rails secret]
+```
+
+Save the file and commit it.
+
+```
+. .env
+heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ```
 
 ### Heroku Deployment
