@@ -1,0 +1,102 @@
+<%= form_with(model: bus_stop) do |form| %>
+  <% if bus_stop.errors.any? %>
+    <div style="color: red">
+      <h2><%= pluralize(bus_stop.errors.count, "error") %> prohibited this bus_stop from being saved:</h2>
+
+      <ul>
+        <% bus_stop.errors.each do |error| %>
+          <li><%= error.full_message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :upd_date, style: "display: block" %>
+    <%= form.text_field :upd_date %>
+  </div>
+
+  <div>
+    <%= form.label :jigyosha_name, style: "display: block" %>
+    <%= form.text_field :jigyosha_name %>
+  </div>
+
+  <div>
+    <%= form.label :tei_kana, style: "display: block" %>
+    <%= form.text_field :tei_kana %>
+  </div>
+
+  <div>
+    <%= form.label :ud_type, style: "display: block" %>
+    <%= form.text_field :ud_type %>
+  </div>
+
+  <div>
+    <%= form.label :city_name, style: "display: block" %>
+    <%= form.text_field :city_name %>
+  </div>
+
+  <div>
+    <%= form.label :tei_cd, style: "display: block" %>
+    <%= form.text_field :tei_cd %>
+  </div>
+
+  <div>
+    <%= form.label :jigyosha_cd, style: "display: block" %>
+    <%= form.text_field :jigyosha_cd %>
+  </div>
+
+  <div>
+    <%= form.label :tei_name, style: "display: block" %>
+    <%= form.text_field :tei_name %>
+  </div>
+
+  <div>
+    <%= form.label :tei_name_foreign, style: "display: block" %>
+    <%= form.text_field :tei_name_foreign %>
+  </div>
+
+  <div>
+    <%= form.label :tei_type, style: "display: block" %>
+    <%= form.text_field :tei_type %>
+  </div>
+
+  <div>
+    <%= form.label :city_cd, style: "display: block" %>
+    <%= form.text_field :city_cd %>
+  </div>
+
+  <div>
+    <%= form.label :area_type, style: "display: block" %>
+    <%= form.text_field :area_type %>
+  </div>
+
+  <div>
+    <%= form.label :latitude, style: "display: block" %>
+    <%= form.text_field :latitude %>
+  </div>
+
+  <div>
+    <%= form.label :longitude, style: "display: block" %>
+    <%= form.text_field :longitude %>
+  </div>
+
+  <div>
+    <%= form.label :noriba_cd, style: "display: block" %>
+    <%= form.text_field :noriba_cd %>
+  </div>
+
+  <div>
+    <%= form.label :community_type, style: "display: block" %>
+    <%= form.text_field :community_type %>
+  </div>
+
+  <div>
+    <%= form.label :navi_type, style: "display: block" %>
+    <%= form.text_field :navi_type %>
+  </div>
+
+  <div>
+    <%= form.submit %>
+  </div>
+<% end %>
