@@ -1,6 +1,8 @@
 build:
+  config:
+    RAILS_MASTER_KEY: 47B090682A37425EC5BB69BA7D05454B
   docker:
-    web: Dockerfile.simple
+    web: Dockerfile.heroku
 
 release:
   command:

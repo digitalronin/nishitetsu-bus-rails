@@ -1,71 +1,56 @@
 ARG RUBY_VERSION=3.1.2
 ARG DISTRO_NAME=bullseye
 
-# https://evilmartians.com/chronicles/ruby-on-whales-docker-for-ruby-rails-development
-# Adapted from the example in the "From development to production" section.
-
 FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME AS base
 
-WORKDIR /app
-
-EXPOSE 3000
-CMD ["/usr/bin/bash"]
-
-# Then, we define the "development" stage from the base one
-FROM base AS development
-
-ENV RAILS_ENV=development
-
 # Install packages (we need vim for automated credentials editing)
-RUN apt-get update -qq && DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive apt-get -yq dist-upgrade
+RUN DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
     build-essential \
     vim \
     curl \
     gnupg2 \
     less \
     git \
+    tzdata \
+    time \
+    locales \
     postgresql-client \
     libpq-dev \
-    libpq5 \
-    && apt-get clean \
-    && rm -rf /var/cache/apt/archives/* \
-    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-    && truncate -s 0 /var/log/*log
+    libpq5
+    # && apt-get clean \
+    # && rm -rf /var/cache/apt/archives/* \
+    # && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+    # && truncate -s 0 /var/log/*log
+
+ENV RAILS_ENV=production \
+  LANG=C.UTF-8 \
+  BUNDLE_JOBS=4 \
+  BUNDLE_RETRY=3
+
+# Upgrade RubyGems and install the Bundler version we want
+RUN gem update --system && \
+    gem install bundler --version 2.3.11
+
+COPY Gemfile Gemfile.lock ./
+RUN bundle install --jobs=${BUNDLE_JOBS}
+
+FROM base AS asset-builder
 
 ARG NODE_MAJOR=16
 RUN curl -sL https://deb.nodesource.com/setup_$NODE_MAJOR.x | bash -
 RUN apt-get install -yq --no-install-recommends nodejs
 RUN npm install -g yarn
 
-FROM development as production-builder
-
-# create and configure a dedicated user to run our application
 RUN groupadd --gid 1005 my_user \
   && useradd --uid 1005 --gid my_user --shell /bin/bash --create-home my_user
-USER my_user
 RUN mkdir /home/my_user/app
+RUN chown my_user:my_user /home/my_user/app
+
 WORKDIR /home/my_user/app
 
-ENV RAILS_ENV=production \
-  LANG=C.UTF-8 \
-  BUNDLE_JOBS=4 \
-  BUNDLE_RETRY=3 \
-  BUNDLE_APP_CONFIG=/home/my_user/bundle \
-  BUNDLE_PATH=/home/my_user/bundle \
-  GEM_HOME=/home/my_user/bundle
-
-# Install Ruby gems
-COPY --chown=my_user:my_user Gemfile Gemfile.lock ./
-RUN mkdir $BUNDLE_PATH \
-  && bundle config --local deployment 'true' \
-  && bundle config --local path "${BUNDLE_PATH}" \
-  && bundle config --local without 'development test' \
-  && bundle config --local clean 'true' \
-  && bundle config --local no-cache 'true' \
-  && bundle install --jobs=${BUNDLE_JOBS} \
-  && rm -rf $BUNDLE_PATH/ruby/3.1.0/cache/* \
-  && rm -rf /home/my_user/.bundle/cache/*
+USER my_user
 
 # Install JS packages
 COPY --chown=my_user:my_user package.json yarn.lock ./
@@ -74,61 +59,38 @@ RUN yarn install --check-files
 # Copy code
 COPY --chown=my_user:my_user . .
 
-# Precompile assets
-# NOTE: The command may require adding some environment variables (e.g., SECRET_KEY_BASE) if you're not using
-# credentials.
-RUN bundle exec rails assets:precompile
+# Build assets
+ARG RAILS_MASTER_KEY
+ENV RAILS_MASTER_KEY=$RAILS_MASTER_KEY
+RUN rails assets:clobber
+RUN rails assets:precompile
 
-# Finally, our production image definition
-# NOTE: It's not extending the base image, it's a new one
-FROM ruby:$RUBY_VERSION-slim-$DISTRO_NAME AS production
-
-# Production-only dependencies
-RUN apt-get update -qq \
-  && apt-get dist-upgrade -y \
-  && DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends \
-    curl \
-    gnupg2 \
-    less \
-    tzdata \
-    time \
-    locales \
-  && apt-get clean \
-  && rm -rf /var/cache/apt/archives/* \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-  && truncate -s 0 /var/log/*log \
-  && update-locale LANG=C.UTF-8 LC_ALL=C.UTF-8
-
-# Upgrade RubyGems and install the Bundler version we want
-RUN gem update --system && \
-    gem install bundler --version 2.3.11
+RUN rm -rf node_modules
 
 
-# Create and configure a dedicated user (use the same name as for the production-builder image)
+FROM base AS production
+
+# Create the user again
 RUN groupadd --gid 1005 my_user \
   && useradd --uid 1005 --gid my_user --shell /bin/bash --create-home my_user
 RUN mkdir /home/my_user/app
+RUN chown my_user:my_user /home/my_user/app
+
 WORKDIR /home/my_user/app
+
 USER my_user
+
+# Copy the code with the compiled assets
+COPY --from=asset-builder /home/my_user/app /home/my_user/app
 
 # Ruby/Rails env configuration
 ENV RAILS_ENV=production \
-  BUNDLE_APP_CONFIG=/home/my_user/bundle \
-  BUNDLE_PATH=/home/my_user/bundle \
-  GEM_HOME=/home/my_user/bundle \
-  PATH="/home/my_user/app/bin:${PATH}" \
-  LANG=C.UTF-8 \
-  LC_ALL=C.UTF-8
+    NODE_ENV=production \
+    RAILS_SERVE_STATIC_FILES=true \
+    RAILS_LOG_TO_STDOUT=true \
+    LANG=C.UTF-8 \
+    LC_ALL=C.UTF-8
 
 EXPOSE 3000
-
-# Copy code
-COPY --chown=my_user:my_user . .
-
-# Copy artifacts
-# 1) Installed gems
-COPY --from=production-builder $BUNDLE_PATH $BUNDLE_PATH
-# 2) We can even copy the Bootsnap cache to speed up our Rails server load!
-COPY --chown=my_user:my_user --from=production-builder /home/my_user/app/tmp/cache/bootsnap* /home/my_user/app/tmp/cache/
 
 CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0"]
