@@ -77,6 +77,9 @@ export default class extends Controller {
       marker.setIcon(this.icon("green"))
       this.fromMarker = marker
     } else {
+      if (this.toMarker !== undefined) {
+        this.toMarker.setIcon(this.icon("blue"))
+      }
       this.toValue = busStop.id
       marker.setIcon(this.icon("red"))
       this.toMarker = marker
