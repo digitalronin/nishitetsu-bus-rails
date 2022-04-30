@@ -6,15 +6,12 @@ class MapController < ApplicationController
   end
 
   def update_journey
-    Rails.logger.info "update_journey xx#{@to}xx"
     if !params[:from_bus_stop].empty?
-      from_bus_stop = BusStop.find(params[:from_bus_stop])
-      @from = from_bus_stop.tei_name
+      @from = BusStop.find(params[:from_bus_stop])
     end
 
     if !params[:to_bus_stop].empty?
-      to_bus_stop = BusStop.find(params[:to_bus_stop])
-      @to = to_bus_stop.tei_name
+      @to = BusStop.find(params[:to_bus_stop])
     end
 
     respond_to do |format|

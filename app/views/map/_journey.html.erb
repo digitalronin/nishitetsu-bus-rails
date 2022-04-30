@@ -1,7 +1,16 @@
 <div>
-  From: <%= @from %>
-  To: <%= @to %>
+  <% if !@from.nil? %>
+    From: <%= @from ? @from.tei_name : "" %>
+  <% end %>
+
   <% if !@to.nil? %>
-    <a href="#" data-action="click->map#resetJourney">clear</a> | search
+    To: <%= @to ? @to.tei_name : "" %>
+  <% end %>
+
+  <% if !@from.nil? %>
+    <a href="#" data-action="click->map#resetJourney">clear</a>
+  <% end %>
+  <% if !@to.nil? %>
+    <a href="#" data-action="click->map#search">search</a>
   <% end %>
 </div>

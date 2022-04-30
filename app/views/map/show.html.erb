@@ -1,19 +1,20 @@
-<%= turbo_stream_from "journey" %>
+<%= tag.div(data: {
+  controller: "map",
+  "map-latitude-value": @latitude,
+  "map-longitude-value": @longitude,
+  "map-from-value": @from ? @from.id : "",
+  "map-to-value": @to ? @to.id : "",
+}) do %>
+  <%= turbo_stream_from "journey" %>
 
-<%= turbo_frame_tag "journey" do %>
-  <%= render partial: "journey", locals: { from: @from, to: @to } %>
+  <%= turbo_frame_tag "journey" do %>
+    <%= render partial: "journey", locals: { from: @from, to: @to } %>
+  <% end %>
+
+  <!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
+  <%= tag.div(id: "mapid",
+              class: "z-10 mb-4 h-64 bg-gray-200",
+              style: "height: 600px",
+              data: { "map-target": "placeholder" }
+             ) %>
 <% end %>
-
-<!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
-<%= tag.div(id: "mapid",
-            class: "z-10 mb-4 h-64 bg-gray-200",
-            style: "height: 600px",
-            data: {
-              controller: "map",
-              "map-target": "placeholder",
-              "map-latitude-value": @latitude,
-              "map-longitude-value": @longitude,
-              "map-from-value": @from,
-              "map-to-value": @to,
-            }
-           ) %>

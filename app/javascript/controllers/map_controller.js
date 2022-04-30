@@ -78,6 +78,8 @@ export default class extends Controller {
 
   resetJourney() {
     console.log("resetJourney")
+    this.fromValue = ""
+    this.toValue = ""
   }
 }
 
