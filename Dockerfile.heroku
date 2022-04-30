@@ -70,6 +70,8 @@ RUN rm -rf node_modules
 
 FROM base AS production
 
+RUN cp /usr/share/zoneinfo/Japan /etc/localtime
+
 # Create the user again
 RUN groupadd --gid 1005 my_user \
   && useradd --uid 1005 --gid my_user --shell /bin/bash --create-home my_user
