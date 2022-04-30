@@ -1,5 +1,5 @@
 import {Controller} from "@hotwired/stimulus"
-import {post, put, patch} from '@rails/request.js'
+import {put, patch} from '@rails/request.js'
 
 export default class extends Controller {
   static targets = ["placeholder"]
@@ -49,20 +49,37 @@ export default class extends Controller {
     return response.json
   }
 
-  addMarker(busStop) {
+  addMarker(busStop, colour = "blue") {
     // this.addMarker(bs.id, bs.tei_name, bs.latitude, bs.longitude)
-    const marker = L.marker([busStop.latitude, busStop.longitude])
+    const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
     marker.on("click", () => {this.updateJourney(marker, busStop)})
     marker.bindTooltip(busStop.tei_name).openTooltip();
     marker.addTo(this.map);
   }
 
+  icon(colour) {
+    const MyIcon = L.Icon.extend({
+      options: {
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+      }
+    });
+
+    return new MyIcon({iconUrl: `/${colour}-map-marker.png`})
+  }
+
   // set from|to, or reset the journey endpoints
-  async updateJourney(marker, busStop) {
+  updateJourney(marker, busStop) {
     if (this.fromValue === "") {
       this.fromValue = busStop.id
+      marker.setIcon(this.icon("green"))
+      this.fromMarker = marker
     } else {
       this.toValue = busStop.id
+      marker.setIcon(this.icon("red"))
+      this.toMarker = marker
     }
 
     const params = {
@@ -70,16 +87,21 @@ export default class extends Controller {
       to_bus_stop: this.toValue
     }
 
-    const response = await patch("/map", {
+    patch("/map", {
       body: JSON.stringify(params),
       responseKind: "turbo-stream"
     })
   }
 
   resetJourney() {
-    console.log("resetJourney")
     this.fromValue = ""
     this.toValue = ""
+    if (this.fromMarker !== undefined) {
+      this.fromMarker.setIcon(this.icon("blue"))
+    }
+    if (this.toMarker !== undefined) {
+      this.toMarker.setIcon(this.icon("blue"))
+    }
   }
 }
 

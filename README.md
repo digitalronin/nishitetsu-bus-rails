@@ -53,6 +53,7 @@ git push heroku main
 
 ## TODO
 
+- Hide all bus stops not connected to the from stop, when user sets from
 - Use a random value to separate my journey from others, so people don't interfere with each others' maps
 - Make the map page look nicer - the search function at the top looks bad
 - Initialise the map to user's chosen/current location
