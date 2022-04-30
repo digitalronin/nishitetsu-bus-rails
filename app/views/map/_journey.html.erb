@@ -1,19 +1,28 @@
-<div>
-  <% if !@from.nil? %>
-    From: <%= @from ? @from.tei_name : "" %>
-  <% end %>
+<div class="row">
+  <form class="col s8">
+    <div class="row">
+      <div class="input-field col s2">
+        <input placeholder="From" id="from" type="text" value="<%= @from ? @from.tei_name : "" %>">
+      </div>
+      <div class="input-field col s2">
+        <input placeholder="To" id="to" type="text" value="<%= @to ? @to.tei_name : "" %>">
+      </div>
+      <div class="col s2 valign-wrapper">
+        <%
+            clear_disabled = @from.nil? ? "disabled" : ""
+            search_disabled = @to.nil? ? "disabled" : ""
+            if !@to.nil?
+              url = "/departures/#{@from.id}/#{@to.id}"
+            end
+        %>
 
-  <% if !@to.nil? %>
-    To: <%= @to ? @to.tei_name : "" %>
-  <% end %>
+        <a href="#" class="waves-effect waves-light btn-small <%= clear_disabled %>" data-action="click->map#resetJourney"><i class="material-icons">clear</i></a>
 
-  <% if !@from.nil? %>
-    <a href="#" data-action="click->map#resetJourney">clear</a>
-  <% end %>
+        &nbsp;
 
-  <% if !@to.nil? %>
-    <% url = "/departures/#{@from.id}/#{@to.id}" %>
-    <a href="<%= url %>" data-turbo="false">search</a>
-  <% end %>
-  &nbsp;
+        <a href="<%= url %>" class="waves-effect waves-light btn-small <%= search_disabled %>" data-turbo="false"><i class="material-icons">search</i></a>
+
+      </div>
+    </div>
+  </form>
 </div>

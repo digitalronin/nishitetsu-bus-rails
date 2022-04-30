@@ -53,7 +53,10 @@ git push heroku main
 
 ## TODO
 
+- reset previous "to" marker from red to blue when user changes destination
+- preserve marker colours when user changes map zoom level
 - add materialize-css "properly"
+- show material animations in the text fields, when user selects a bus stop
 - add dynamic search fields for from/to bus stops
 - Hide all bus stops not connected to the from stop, when user sets from
 - Use a random value to separate my journey from others, so people don't interfere with each others' maps
