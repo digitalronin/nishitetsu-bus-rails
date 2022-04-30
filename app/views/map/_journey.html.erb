@@ -12,7 +12,8 @@
   <% end %>
 
   <% if !@to.nil? %>
-    <a href="#" data-action="click->map#search">search</a>
+    <% url = "/departures/#{@from.id}/#{@to.id}" %>
+    <a href="<%= url %>" data-turbo="false">search</a>
   <% end %>
   &nbsp;
 </div>

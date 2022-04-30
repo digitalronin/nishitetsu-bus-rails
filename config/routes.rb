@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   get "/map", to: "map#show"
   put "/map", to: "map#update"
   patch "/map", to: "map#update_journey"
+
+  get "/departures/:from/:to", to: "departures#show"
 end
