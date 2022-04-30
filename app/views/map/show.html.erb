@@ -5,8 +5,6 @@
   "map-from-value": @from ? @from.id : "",
   "map-to-value": @to ? @to.id : "",
 }) do %>
-  <%= turbo_stream_from "journey" %>
-
   <%= turbo_frame_tag "journey" do %>
     <%= render partial: "journey", locals: { from: @from, to: @to } %>
   <% end %>
