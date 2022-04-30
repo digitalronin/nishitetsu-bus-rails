@@ -1,0 +1,13 @@
+<h1>Map</h1>
+
+<!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
+<%= tag.div(id: "mapid",
+            class: "z-10 mb-4 h-64 bg-gray-200",
+            style: "height: 600px",
+            data: {
+              controller: "map",
+              target: "map.placeholder",
+              "map-latitude-value": @latitude,
+              "map-longitude-value": @longitude,
+            }
+           ) %>

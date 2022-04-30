@@ -4,4 +4,7 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+
+  get "/map", to: "map#show"
+  put "/map", to: "map#update"
 end

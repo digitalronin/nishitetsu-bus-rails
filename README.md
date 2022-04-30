@@ -50,3 +50,8 @@ heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ```
 git push heroku main
 ```
+
+## TODO
+
+- Initialise the map to user's chosen/current location
+- Add leaflet as an npm package & replace tags in the layout
