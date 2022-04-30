@@ -1,4 +1,8 @@
-<h1>Map</h1>
+<%= turbo_stream_from "journey" %>
+
+<%= turbo_frame_tag "journey" do %>
+  <%= render partial: "journey", locals: { from: @from, to: @to } %>
+<% end %>
 
 <!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
 <%= tag.div(id: "mapid",
@@ -6,8 +10,10 @@
             style: "height: 600px",
             data: {
               controller: "map",
-              target: "map.placeholder",
+              "map-target": "placeholder",
               "map-latitude-value": @latitude,
               "map-longitude-value": @longitude,
+              "map-from-value": @from,
+              "map-to-value": @to,
             }
            ) %>

@@ -1,14 +1,16 @@
 import {Controller} from "@hotwired/stimulus"
+import {post, put, patch} from '@rails/request.js'
 
 export default class extends Controller {
   static targets = ["placeholder"]
   static values = {
     latitude: Number,
-    longitude: Number
+    longitude: Number,
+    from: String,
+    to: String
   }
 
   connect() {
-    console.log(this.latitudeValue)
     this.map = L.map(this.placeholderTarget).setView([this.latitudeValue, this.longitudeValue], 16);
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -40,27 +42,42 @@ export default class extends Controller {
       maxLon: ne.lng,
       minLon: sw.lng
     }
-    const response = await fetch("/map", {
-      method: "PUT",
-      headers: {
-        "X-CSRF-Token": document.head.querySelector("[name='csrf-token']").content,
-        Accept: "text/vnd.turbo-stream.html",
-        "Content-Type": "application/json"
-      },
+    const response = await put("/map", {
       body: JSON.stringify(box)
     })
 
-    const rtn = await response.json()
-
-    return rtn
+    return response.json
   }
 
   addMarker(busStop) {
     // this.addMarker(bs.id, bs.tei_name, bs.latitude, bs.longitude)
     const marker = L.marker([busStop.latitude, busStop.longitude])
-    // marker.on("click", () => { window.location = url; });
+    marker.on("click", () => {this.updateJourney(marker, busStop)})
     marker.bindTooltip(busStop.tei_name).openTooltip();
     marker.addTo(this.map);
+  }
+
+  // set from|to, or reset the journey endpoints
+  async updateJourney(marker, busStop) {
+    if (this.fromValue === "") {
+      this.fromValue = busStop.id
+    } else {
+      this.toValue = busStop.id
+    }
+
+    const params = {
+      from_bus_stop: this.fromValue,
+      to_bus_stop: this.toValue
+    }
+
+    const response = await patch("/map", {
+      body: JSON.stringify(params),
+      responseKind: "turbo-stream"
+    })
+  }
+
+  resetJourney() {
+    console.log("resetJourney")
   }
 }
 

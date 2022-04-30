@@ -1,0 +1,7 @@
+<div>
+  From: <%= @from %>
+  To: <%= @to %>
+  <% if !@to.nil? %>
+    <a href="#" data-action="click->map#resetJourney">clear</a> | search
+  <% end %>
+</div>

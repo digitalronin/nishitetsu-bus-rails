@@ -53,5 +53,6 @@ git push heroku main
 
 ## TODO
 
+- Use a random value to separate my journey from others, so people don't interfere with each others' maps
 - Initialise the map to user's chosen/current location
 - Add leaflet as an npm package & replace tags in the layout
