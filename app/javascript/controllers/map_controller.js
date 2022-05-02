@@ -27,7 +27,15 @@ export default class extends Controller {
 
   async showBusStops() {
     const data = await this.fetchBusStops()
-    data.busStops.map(bs => {this.addMarker(bs)})
+    const markers = data.busStops.map(bs => this.getMarker(bs))
+    const lg = L.layerGroup(markers)
+
+    if (this.markersLayer !== undefined) {
+      this.map.removeLayer(this.markersLayer)
+    }
+
+    this.markersLayer = lg
+    this.map.addLayer(this.markersLayer)
   }
 
   // Get list of bus stops inside the bounds of the currently-displayed map
@@ -36,25 +44,30 @@ export default class extends Controller {
     const ne = bounds.getNorthEast()
     const sw = bounds.getSouthWest()
 
-    const box = {
+    const params = {
       maxLat: ne.lat,
       minLat: sw.lat,
       maxLon: ne.lng,
-      minLon: sw.lng
+      minLon: sw.lng,
+      from_bus_stop: this.fromValue,
+      to_bus_stop: this.toValue,
     }
     const response = await put("/map", {
-      body: JSON.stringify(box)
+      body: JSON.stringify(params)
     })
 
     return response.json
   }
 
-  addMarker(busStop) {
+  getMarker(busStop) {
     const colour = this.getColour(busStop)
     const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
-    marker.on("click", () => {this.updateJourney(marker, busStop)})
+    marker.on("click", () => {
+      console.log("click", busStop.id)
+      this.updateJourney(marker, busStop)
+    })
     marker.bindTooltip(busStop.tei_name).openTooltip();
-    marker.addTo(this.map);
+    return marker
   }
 
   getColour(busStop) {
