@@ -10,9 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_04_29_120617) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_02_075904) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "bus_routes", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "bus_stops", force: :cascade do |t|
     t.string "upd_date"
@@ -36,4 +42,15 @@ ActiveRecord::Schema[7.0].define(version: 2022_04_29_120617) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "route_stops", force: :cascade do |t|
+    t.bigint "bus_stop_id", null: false
+    t.bigint "bus_route_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["bus_route_id"], name: "index_route_stops_on_bus_route_id"
+    t.index ["bus_stop_id"], name: "index_route_stops_on_bus_stop_id"
+  end
+
+  add_foreign_key "route_stops", "bus_routes"
+  add_foreign_key "route_stops", "bus_stops"
 end
