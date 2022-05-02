@@ -53,7 +53,6 @@ git push heroku main
 
 ## TODO
 
-- preserve marker colours when user changes map zoom level
 - add materialize-css "properly"
 - show material animations in the text fields, when user selects a bus stop
 - add dynamic search fields for from/to bus stops

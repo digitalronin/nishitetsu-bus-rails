@@ -49,12 +49,22 @@ export default class extends Controller {
     return response.json
   }
 
-  addMarker(busStop, colour = "blue") {
-    // this.addMarker(bs.id, bs.tei_name, bs.latitude, bs.longitude)
+  addMarker(busStop) {
+    const colour = this.getColour(busStop)
     const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
     marker.on("click", () => {this.updateJourney(marker, busStop)})
     marker.bindTooltip(busStop.tei_name).openTooltip();
     marker.addTo(this.map);
+  }
+
+  getColour(busStop) {
+    if (String(busStop.id) === this.fromValue) {
+      return "green"
+    } else if (String(busStop.id) === this.toValue) {
+      return "red"
+    } else {
+      return "blue"
+    }
   }
 
   icon(colour) {
