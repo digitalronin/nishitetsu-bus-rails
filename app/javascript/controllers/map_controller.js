@@ -62,10 +62,7 @@ export default class extends Controller {
   getMarker(busStop) {
     const colour = this.getColour(busStop)
     const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
-    marker.on("click", () => {
-      console.log("click", busStop.id)
-      this.updateJourney(marker, busStop)
-    })
+    marker.on("click", () => {this.updateJourney(marker, busStop)})
     marker.bindTooltip(busStop.tei_name).openTooltip();
     return marker
   }
@@ -97,16 +94,11 @@ export default class extends Controller {
   updateJourney(marker, busStop) {
     if (this.fromValue === "") {
       this.fromValue = busStop.id
-      marker.setIcon(this.icon("green"))
-      this.fromMarker = marker
     } else {
-      if (this.toMarker !== undefined) {
-        this.toMarker.setIcon(this.icon("blue"))
-      }
       this.toValue = busStop.id
-      marker.setIcon(this.icon("red"))
-      this.toMarker = marker
     }
+
+    this.showBusStops()
 
     const params = {
       from_bus_stop: this.fromValue,
@@ -122,12 +114,7 @@ export default class extends Controller {
   resetJourney() {
     this.fromValue = ""
     this.toValue = ""
-    if (this.fromMarker !== undefined) {
-      this.fromMarker.setIcon(this.icon("blue"))
-    }
-    if (this.toMarker !== undefined) {
-      this.toMarker.setIcon(this.icon("blue"))
-    }
+    this.showBusStops()
   }
 }
 

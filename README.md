@@ -56,8 +56,5 @@ git push heroku main
 - add materialize-css "properly"
 - show material animations in the text fields, when user selects a bus stop
 - add dynamic search fields for from/to bus stops
-- Hide all bus stops not connected to the from stop, when user sets from
-- Use a random value to separate my journey from others, so people don't interfere with each others' maps
-- Make the map page look nicer - the search function at the top looks bad
 - Initialise the map to user's chosen/current location
 - Add leaflet as an npm package & replace tags in the layout
