@@ -30,12 +30,22 @@ class MapController < ApplicationController
   end
 
   def update
-    bus_stops = BusStop.within_box(
-      min_lat: params[:minLat],
-      min_lon: params[:minLon],
-      max_lat: params[:maxLat],
-      max_lon: params[:maxLon],
-    )
+    if (params[:from_bus_stop].to_s != "")
+      bus_stops = BusStop
+        .find(params[:from_bus_stop])
+        .connected_stops
+        .filter {|bs| bs.latitude <= params[:maxLat]}
+        .filter {|bs| bs.longitude <= params[:maxLon]}
+        .filter {|bs| bs.latitude >= params[:minLat]}
+        .filter {|bs| bs.longitude >= params[:minLon]}
+    else
+      bus_stops = BusStop.within_box(
+        min_lat: params[:minLat],
+        min_lon: params[:minLon],
+        max_lat: params[:maxLat],
+        max_lon: params[:maxLon],
+      )
+    end
 
     render json: { busStops: bus_stops }
   end
