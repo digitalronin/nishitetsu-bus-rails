@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
+  root "map#show"
+
   get "/map", to: "map#show"
   put "/map", to: "map#update"
   patch "/map", to: "map#update_journey"
