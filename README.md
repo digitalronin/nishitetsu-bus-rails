@@ -53,8 +53,18 @@ git push heroku main
 
 ## TODO
 
-- add materialize-css "properly"
-- show material animations in the text fields, when user selects a bus stop
-- add dynamic search fields for from/to bus stops
+- add "return" option to invert a bus route search
+- enable changing to/from bus stop from the departures page (i.e. touch to/from to return to the map and select a different stop)
+- Use timetable data to figure out all the bus routes (i.e. the order of stops, based on the time of the first bus)
+- do something to prevent hitting the heroku hobby database limit (maybe store routes as JSON objects?)
 - Initialise the map to user's chosen/current location
+- add dynamic search fields for from/to bus stops
+- enable user to keep a page of favourite journeys
+- enable "express routes only"
+- show bus routes in the tooltip for each bus stop
+- show material animations in the text fields, when user selects a bus stop
+- add materialize-css "properly"
 - Add leaflet as an npm package & replace tags in the layout
+- add some explanatory text
+- make it look nicer
+- create tasks to refresh the lookup data
