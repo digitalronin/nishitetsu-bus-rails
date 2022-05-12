@@ -1,0 +1,7 @@
+<h1>Journeys</h1>
+
+<ul class="collection">
+  <% @journeys.each do |journey| %>
+    <%= render partial: "journey", locals: { journey: journey } %>
+  <% end %>
+</ul>

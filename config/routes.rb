@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   patch "/map", to: "map#update_journey"
 
   get "/departures/:from/:to", to: "departures#show"
+
+  get "/journeys", to: "journeys#index"
 end

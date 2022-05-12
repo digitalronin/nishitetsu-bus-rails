@@ -11,6 +11,14 @@ Bus](https://www.nishitetsu.jp/bus/) services.
 
 `make shell|rails-c` run a terminal or rails console in the running development environment.
 
+### Load reference data
+
+```
+make shell
+rails runner data/create_bus_stops.rb
+rails runner data/create_bus_routes.rb
+```
+
 ## Heroku Setup
 
 ```

@@ -1,23 +1,8 @@
-<div class="row">
-  <div class="card">
-    <div class="card-action right blue lighten-4">
-      <a href="javascript: window.location.reload()">
-        <span class="badge valign-wrapper">
-          <i class="small material-icons">refresh</i>
-          <%= Time.now.strftime("%H:%M") %>
-        </span>
-      </a>
-    </div>
-
-    <div class="card-content blue lighten-4">
-      <div class="card-title">
-        <h6><%= @dp.journey_start %></h6>
-        <i class="small material-icons">arrow_forward</i>
-        <h6><%= @dp.journey_end %></h6>
-      </div>
-    </div>
-  </div>
-</div>
+<h3 class="valign-wrapper departures">
+  <%= @from.tei_name %>
+  &nbsp; <i class="material-icons">arrow_forward</i> &nbsp;
+  <%= @to.tei_name %>
+</h3>
 
 <ul class="collection with-header">
   <li class="collection-header">
