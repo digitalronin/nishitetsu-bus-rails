@@ -14,9 +14,7 @@ Bus](https://www.nishitetsu.jp/bus/) services.
 ### Load reference data
 
 ```
-make shell
-rails runner data/create_bus_stops.rb
-rails runner data/create_bus_routes.rb
+make load-reference-data
 ```
 
 ## Heroku Setup
@@ -59,9 +57,18 @@ heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 git push heroku main
 ```
 
+> After first deployment, you will need to load the reference data on the
+> Heroku database:
+
+```
+heroku run rails runner data/create_bus_stops.rb
+heroku run rails runner data/create_bus_routes.rb
+```
+
 ## TODO
 
 - add "return" option to invert a bus route search
+- convert the app. to [use importmaps](https://www.driftingruby.com/episodes/importmaps-in-rails-7)
 - enable changing to/from bus stop from the departures page (i.e. touch to/from to return to the map and select a different stop)
 - Use timetable data to figure out all the bus routes (i.e. the order of stops, based on the time of the first bus)
 - do something to prevent hitting the heroku hobby database limit (maybe store routes as JSON objects?)

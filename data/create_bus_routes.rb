@@ -16,7 +16,7 @@ data["routes"].each do |name,bus_stops|
   puts "Route: #{name}"
   bus_stops.each do |tei_cd|
     if bus_stop = BusStop.find_by_tei_cd(tei_cd)
-      puts [route.name, tei_cd].join(", ")
+      # puts [route.name, tei_cd].join(", ")
       RouteStop.create(bus_stop_id: bus_stop.id, bus_route_id: route.id)
     end
   end

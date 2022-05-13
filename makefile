@@ -34,6 +34,10 @@ shell:
 rails-c:
 	$(RAILS) console
 
+load-reference-data:
+	$(RAILS) runner data/create_bus_stops.rb
+	$(RAILS) runner data/create_bus_routes.rb
+
 exec-onto-rails-container:
 	docker exec -it nishitetsubusrails-application-web-1 bash
 
