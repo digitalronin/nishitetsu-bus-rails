@@ -4,6 +4,7 @@ import {put, patch} from '@rails/request.js'
 export default class extends Controller {
   static targets = ["placeholder"]
   static values = {
+    mapurl: String,
     latitude: Number,
     longitude: Number,
     from: String,
@@ -58,7 +59,7 @@ export default class extends Controller {
       from_bus_stop: this.fromValue,
       to_bus_stop: this.toValue,
     }
-    const response = await put("/map", {
+    const response = await put(this.mapurlValue, {
       body: JSON.stringify(params)
     })
 
@@ -137,7 +138,7 @@ export default class extends Controller {
       to_bus_stop: this.toValue
     }
 
-    patch("/map", {
+    patch(this.mapurlValue, {
       body: JSON.stringify(params),
       responseKind: "turbo-stream"
     })

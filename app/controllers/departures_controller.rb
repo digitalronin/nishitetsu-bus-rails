@@ -3,8 +3,6 @@ class DeparturesController < ApplicationController
     @from = BusStop.find(params[:from])
     @to = BusStop.find(params[:to])
 
-    @return_url = "/departures/#{@to.id}/#{@from.id}"
-
     api = Nishitetsu::Api.new
 
     html = api.live_departures(

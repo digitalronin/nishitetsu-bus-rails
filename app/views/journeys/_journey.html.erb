@@ -1,5 +1,5 @@
 <li class="collection-item">
-  <%= link_to journey[:link], class: "valign-wrapper journey", data: { turbo: false } do %>
+  <%= link_to departures_url(journey[:from], journey[:to]), class: "valign-wrapper journey", data: { turbo: false } do %>
     <%= journey[:from].tei_name %>
     &nbsp; <i class="material-icons">arrow_forward</i> &nbsp;
     <%= journey[:to].tei_name %>
