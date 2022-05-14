@@ -30,6 +30,7 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
+  language: "Language"
   title: "Nishitetsu Bus (unofficial)"
   from: "From"
   to: "To"
