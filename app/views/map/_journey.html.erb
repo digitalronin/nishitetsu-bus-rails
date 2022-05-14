@@ -12,7 +12,7 @@
             clear_disabled = @from.nil? ? "disabled" : ""
             search_disabled = @to.nil? ? "disabled" : ""
             if !@to.nil?
-              url = "/departures/#{@from.id}/#{@to.id}"
+              url = departures_url(@from, @to)
             end
         %>
 

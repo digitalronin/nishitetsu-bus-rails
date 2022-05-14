@@ -15,8 +15,7 @@ class JourneysController < ApplicationController
   private
 
   def journey(from, to)
-    link = "/departures/#{from.id}/#{to.id}"
-    { from: from, to: to, link: link }
+    { from: from, to: to }
   end
 
   def bus_stop(name)
