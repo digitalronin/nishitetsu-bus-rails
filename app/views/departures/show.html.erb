@@ -2,6 +2,10 @@
   <%= @from.tei_name %>
   &nbsp; <i class="material-icons">arrow_forward</i> &nbsp;
   <%= @to.tei_name %>
+  &nbsp;
+  <a href="<%= @return_url %>" data-turbo="false" class="valign-wrapper departures">
+    <i class="material-icons">swap_horiz</i>
+  </a>
 </h3>
 
 <ul class="collection with-header">
