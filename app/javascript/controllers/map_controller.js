@@ -17,6 +17,12 @@ export default class extends Controller {
       subdomains: ['a', 'b', 'c']
     }).addTo(this.map);
 
+    // This only seems to work *some* of the time on the desktop. I'm not sure yet whether it
+    // works at all on my phone.
+    L.easyButton('<i class="material-icons crosshairs">gps_fixed</i>', function (btn, map) {
+      map.locate({setView: true, maxZoom: 16});
+    }).addTo(this.map);
+
     this.map.on("moveend", async () => this.showBusStops())
     this.showBusStops()
   }

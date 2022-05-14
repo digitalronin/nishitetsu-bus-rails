@@ -1,6 +1,13 @@
 @import 'bootstrap/scss/bootstrap';
 @import 'bootstrap-icons/font/bootstrap-icons';
 
+// reposition crosshairs within the map's easyButton
+i.crosshairs {
+  position: relative;
+  right: 3px;
+  top: 2px;
+}
+
 a.journey, a.departures {
   text-decoration: none;
 }
