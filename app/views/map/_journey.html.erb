@@ -2,10 +2,10 @@
   <form class="col s8">
     <div class="row">
       <div class="input-field col s2">
-        <input placeholder="出発地" id="from" type="text" value="<%= @from ? @from.tei_name : "" %>">
+        <input placeholder="<%= t :from %>" id="from" type="text" value="<%= @from ? @from.tei_name : "" %>">
       </div>
       <div class="input-field col s2">
-        <input placeholder="目的地" id="to" type="text" value="<%= @to ? @to.tei_name : "" %>">
+        <input placeholder="<%= t :to %>" id="to" type="text" value="<%= @to ? @to.tei_name : "" %>">
       </div>
       <div class="col s2 valign-wrapper">
         <%
