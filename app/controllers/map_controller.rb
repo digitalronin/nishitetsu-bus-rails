@@ -25,12 +25,12 @@ class MapController < ApplicationController
         ]
       }
     end
-
-    # render "_journey", status: :ok, locals: { from: @from, to: @to }
   end
 
   def update
     if (params[:from_bus_stop].to_s != "")
+      # Only return bus stops that are inside the map box if they're directly
+      # connected to the "from" bus stop
       bus_stops = BusStop
         .find(params[:from_bus_stop])
         .connected_stops
@@ -39,6 +39,7 @@ class MapController < ApplicationController
         .filter {|bs| bs.latitude >= params[:minLat]}
         .filter {|bs| bs.longitude >= params[:minLon]}
     else
+      # Get all bus stop that fit inside the current map box
       bus_stops = BusStop.within_box(
         min_lat: params[:minLat],
         min_lon: params[:minLon],
