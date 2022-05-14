@@ -30,4 +30,8 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  title: "Nishitetsu Bus (unofficial)"
+  from: "From"
+  to: "To"
+  my_journeys: "My Journeys"
+  map: "Map"
