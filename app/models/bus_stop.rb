@@ -14,4 +14,12 @@ class BusStop < ApplicationRecord
   def connected_stops
     bus_routes.map { |route| route.bus_stops }.flatten.uniq
   end
+
+  def route_numbers
+    bus_routes.map(&:name).sort
+  end
+
+  def as_json(options = {})
+    super(options).merge(routes: route_numbers)
+  end
 end

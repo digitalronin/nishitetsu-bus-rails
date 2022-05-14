@@ -62,9 +62,35 @@ export default class extends Controller {
   getMarker(busStop) {
     const colour = this.getColour(busStop)
     const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
-    marker.on("click", () => {this.updateJourney(marker, busStop)})
-    marker.bindTooltip(busStop.tei_name).openTooltip();
+
+    // On my phone, a touch generates this event, but the openPopup call doesn't seem to work
+    marker.on("click", () => {
+      marker.openPopup()
+      this.updateJourney(marker, busStop)
+    })
+
+    // On my phone, a longish press generates this event
+    marker.on("touch", () => {
+      marker.openPopup()
+    })
+
+    const routes = this.busRoutesToHtmlString(busStop.routes)
+    const popupHtml = `<b>${busStop.tei_name}</b><br /><hr />${routes}`
+
+    marker.on("mouseover", () => {marker.openPopup()})
+    marker.bindPopup(popupHtml, {closeButton: false}).openPopup();
+
     return marker
+  }
+
+  busRoutesToHtmlString(routes) {
+    let rtn = ''
+    const chunkSize = 4;
+    for (let i = 0; i < routes.length; i += chunkSize) {
+      const chunk = routes.slice(i, i + chunkSize);
+      rtn += `${chunk.join(", ")}<br />`
+    }
+    return rtn
   }
 
   getColour(busStop) {
