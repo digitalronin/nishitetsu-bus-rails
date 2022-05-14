@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>西鉄バス(非公式)</title>
+    <title><%= t :title %></title>
 
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
@@ -33,12 +33,20 @@
           <ul class="left hide-on-med-and-down">
             <li><%= link_to t(:map), map_url, data: { turbo: false } %></li>
             <li><%= link_to t(:my_journeys), my_journeys_url, data: { turbo: false } %></li>
+            <li><a class="dropdown-trigger" href="#!" data-target="change_language"><%= t :language %><i class="material-icons right">arrow_drop_down</i></a></li>
           </ul>
         </div>
       </nav>
       <ul class="sidenav" id="nav-target">
         <li><%= link_to t(:map), map_url, data: { turbo: false } %></li>
         <li><%= link_to t(:my_journeys), my_journeys_url, data: { turbo: false } %></li>
+        <li><div class="divider"></div></li>
+        <li><a href="/en/map" data-turbo="false">&#127468;&#127463; English</a></li>
+        <li><a href="/ja/map" data-turbo="false">&#127471;&#127477; 日本語</a></li>
+      </ul>
+      <ul id="change_language" class="dropdown-content">
+        <li><a href="/en/map" data-turbo="false">&#127468;&#127463; English</a></li>
+        <li><a href="/ja/map" data-turbo="false">&#127471;&#127477; 日本語</a></li>
       </ul>
     <header>
     <main class="container">

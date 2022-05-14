@@ -9,6 +9,9 @@ import * as bootstrap from "bootstrap"
 // links that change pages in the app. This sucks, but this is not yak worth
 // shaving.
 document.addEventListener('turbo:load', function () {
-  var elems = document.querySelectorAll('.sidenav');
-  var instances = M.Sidenav.init(elems, {});
+  const sidenav_elems = document.querySelectorAll('.sidenav')
+  M.Sidenav.init(sidenav_elems, {})
+
+  const drop_triggers = document.querySelectorAll('.dropdown-trigger')
+  M.Dropdown.init(drop_triggers)
 });
