@@ -8,11 +8,13 @@ Rails.application.routes.draw do
 
   root "map#show"
 
-  get "/map", to: "map#show", as: "map"
-  put "/map", to: "map#update"
-  patch "/map", to: "map#update_journey"
+  scope "/:locale" do
+    get "/map", to: "map#show", as: "map"
+    put "/map", to: "map#update"
+    patch "/map", to: "map#update_journey"
 
-  get "/departures/:from/:to", to: "departures#show", as: "departures"
+    get "/departures/:from/:to", to: "departures#show", as: "departures"
 
-  get "/journeys", to: "journeys#index", as: "my_journeys"
+    get "/journeys", to: "journeys#index", as: "my_journeys"
+  end
 end
