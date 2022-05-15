@@ -3,6 +3,8 @@
 Rails application to provide a better web/mobile web interface to [Nishitetsu
 Bus](https://www.nishitetsu.jp/bus/) services.
 
+View this app [on Heroku](https://nishibus.herokuapp.com)
+
 ## Developing
 
 `make up|down` to start/stop the development environment
