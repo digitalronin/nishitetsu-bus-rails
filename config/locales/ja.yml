@@ -4,3 +4,5 @@ ja:
   to: "目的地"
   my_journeys: "私のルート"
   map: "地図"
+  express_only: "都市高経由"
+  slow_and_fast: "全て表示"

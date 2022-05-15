@@ -2,6 +2,7 @@ class DeparturesController < ApplicationController
   def show
     @from = BusStop.find(params[:from])
     @to = BusStop.find(params[:to])
+    @express_only = params[:express_only] == "yes"
 
     api = Nishitetsu::Api.new
 
@@ -10,6 +11,8 @@ class DeparturesController < ApplicationController
       to: @to.api_id,
     )
 
-    @dp = Nishitetsu::DeparturesParser.new(html)
+    list = Nishitetsu::DeparturesParser.new(html).departures
+
+    @departures = @express_only ? list.filter(&:express?) : list
   end
 end

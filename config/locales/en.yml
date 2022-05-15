@@ -36,3 +36,5 @@ en:
   to: "To"
   my_journeys: "My Journeys"
   map: "Map"
+  express_only: "Express Routes Only"
+  slow_and_fast: "Show All"
