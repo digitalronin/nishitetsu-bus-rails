@@ -41,12 +41,12 @@
         <li><%= link_to t(:map), map_url, data: { turbo: false } %></li>
         <li><%= link_to t(:my_journeys), my_journeys_url, data: { turbo: false } %></li>
         <li><div class="divider"></div></li>
-        <li><a href="/en/map" data-turbo="false">&#127468;&#127463; English</a></li>
-        <li><a href="/ja/map" data-turbo="false">&#127471;&#127477; 日本語</a></li>
+        <li><a href="/en/<%= @path_without_locale %>" data-turbo="false">&#127468;&#127463; English</a></li>
+        <li><a href="/ja/<%= @path_without_locale %>" data-turbo="false">&#127471;&#127477; 日本語</a></li>
       </ul>
       <ul id="change_language" class="dropdown-content">
-        <li><a href="/en/map" data-turbo="false">&#127468;&#127463; English</a></li>
-        <li><a href="/ja/map" data-turbo="false">&#127471;&#127477; 日本語</a></li>
+        <li><a href="/en/<%= @path_without_locale %>" data-turbo="false">&#127468;&#127463; English</a></li>
+        <li><a href="/ja/<%= @path_without_locale %>" data-turbo="false">&#127471;&#127477; 日本語</a></li>
       </ul>
     <header>
     <main class="container">
