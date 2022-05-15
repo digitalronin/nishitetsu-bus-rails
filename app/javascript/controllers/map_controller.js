@@ -20,7 +20,7 @@ export default class extends Controller {
 
     // This only seems to work *some* of the time on the desktop. I'm not sure yet whether it
     // works at all on my phone.
-    L.easyButton('<i class="material-icons crosshairs">gps_fixed</i>', function (btn, map) {
+    L.easyButton('<i class="material-icons crosshairs">gps_fixed</i>', (_btn, map) => {
       map.locate({setView: true, maxZoom: 16});
     }).addTo(this.map);
 
@@ -82,7 +82,7 @@ export default class extends Controller {
     })
 
     const routes = this.busRoutesToHtmlString(busStop.routes)
-    const popupHtml = `<b>${busStop.tei_name}</b><br /><hr />${routes}`
+    const popupHtml = `<b>${busStop.display_name}</b><br /><hr />${routes}`
 
     marker.on("mouseover", () => {marker.openPopup()})
     marker.bindPopup(popupHtml, {closeButton: false}).openPopup();
@@ -124,7 +124,7 @@ export default class extends Controller {
   }
 
   // set from|to, or reset the journey endpoints
-  updateJourney(marker, busStop) {
+  updateJourney(_marker, busStop) {
     if (this.fromValue === "") {
       this.fromValue = busStop.id
     } else {

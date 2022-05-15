@@ -53,6 +53,9 @@ gem "sassc-rails"
 
 gem "nokogiri"
 
+# Used to convert hiragana bus stop names to romaji, when locale == en
+gem "mojinizer"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[ mri mingw x64_mingw ]

@@ -20,6 +20,13 @@ class BusStop < ApplicationRecord
   end
 
   def as_json(options = {})
-    super(options).merge(routes: route_numbers)
+    super(options).merge(
+      display_name: display_name,
+      routes: route_numbers,
+    )
+  end
+
+  def display_name
+    I18n.locale == :ja ? tei_name : tei_kana.romaji.capitalize.gsub('(', ' (')
   end
 end

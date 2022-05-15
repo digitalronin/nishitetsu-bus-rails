@@ -1,7 +1,7 @@
 <h3 class="valign-wrapper departures">
-  <%= @from.tei_name %>
+  <%= @from.display_name %>
   &nbsp; <i class="material-icons">arrow_forward</i> &nbsp;
-  <%= @to.tei_name %>
+  <%= @to.display_name %>
   &nbsp;
   <a href="<%= departures_url(@to, @from) %>" data-turbo="false" class="valign-wrapper departures">
     <i class="material-icons">swap_horiz</i>
