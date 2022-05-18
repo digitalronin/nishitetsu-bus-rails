@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 class Nishitetsu
   class Departure
     attr_reader :node
 
     EXPRESS = "都市高"
 
-    def initialize(node)  # node is a nokogiri node
+    # node is a nokogiri node
+    def initialize(node)
       @node = node
     end
 
@@ -13,11 +16,11 @@ class Nishitetsu
     end
 
     def route_number
-      node.css("li.num").text  # e.g. 23
+      node.css("li.num").text # e.g. 23
     end
 
     def route_type
-      node.css("ul.label").css("li").first.text  # 都市高 / 普通
+      node.css("ul.label").css("li").first.text # 都市高 / 普通
     end
 
     def express?
@@ -26,8 +29,8 @@ class Nishitetsu
 
     def minutes_late
       late_notice = node.css("div.notice p span").text
-      if late_notice.match(/(\d+)/)
-        $1.to_i
+      if late_notice =~ /(\d+)/
+        Regexp.last_match(1).to_i
       else
         0
       end

@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BusRoutesController < ApplicationController
-  before_action :set_bus_route, only: %i[ show edit update destroy ]
+  before_action :set_bus_route, only: %i[show edit update destroy]
 
   # GET /bus_routes or /bus_routes.json
   def index
@@ -58,13 +60,14 @@ class BusRoutesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bus_route
-      @bus_route = BusRoute.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def bus_route_params
-      params.require(:bus_route).permit(:name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bus_route
+    @bus_route = BusRoute.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def bus_route_params
+    params.require(:bus_route).permit(:name)
+  end
 end

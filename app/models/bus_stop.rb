@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BusStop < ApplicationRecord
-  scope :within_box, ->(min_lat:, max_lat:, min_lon:, max_lon:) {
+  scope :within_box, lambda { |min_lat:, max_lat:, min_lon:, max_lon:|
     where('(latitude between ? AND ?) AND (longitude between ? AND ?)', min_lat, max_lat, min_lon, max_lon)
       .limit(50)
   }
@@ -8,11 +10,11 @@ class BusStop < ApplicationRecord
   has_many :bus_routes, through: :route_stops
 
   def api_id
-    [jigyosha_cd,tei_cd].join(",")
+    [jigyosha_cd, tei_cd].join(',')
   end
 
   def connected_stops
-    bus_routes.map { |route| route.bus_stops }.flatten.uniq
+    bus_routes.map(&:bus_stops).flatten.uniq
   end
 
   def route_numbers
@@ -21,8 +23,8 @@ class BusStop < ApplicationRecord
 
   def as_json(options = {})
     super(options).merge(
-      display_name: display_name,
-      routes: route_numbers,
+      display_name:,
+      routes: route_numbers
     )
   end
 

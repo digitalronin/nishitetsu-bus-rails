@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateRouteStops < ActiveRecord::Migration[7.0]
   def change
     create_table :route_stops do |t|

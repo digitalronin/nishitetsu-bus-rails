@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class BusStopsController < ApplicationController
-  before_action :set_bus_stop, only: %i[ show edit update destroy ]
+  before_action :set_bus_stop, only: %i[show edit update destroy]
 
   # GET /bus_stops or /bus_stops.json
   def index
@@ -58,13 +60,20 @@ class BusStopsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_bus_stop
-      @bus_stop = BusStop.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def bus_stop_params
-      params.require(:bus_stop).permit(:upd_date, :jigyosha_name, :tei_kana, :ud_type, :city_name, :tei_cd, :jigyosha_cd, :tei_name, :tei_name_foreign, :tei_type, :city_cd, :area_type, :latitude, :longitude, :noriba_cd, :community_type, :navi_type)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_bus_stop
+    @bus_stop = BusStop.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def bus_stop_params
+    params.require(:bus_stop).permit(
+      :upd_date, :jigyosha_name, :tei_kana, :ud_type,
+      :city_name, :tei_cd, :jigyosha_cd, :tei_name,
+      :tei_name_foreign, :tei_type, :city_cd, :area_type,
+      :latitude, :longitude, :noriba_cd, :community_type,
+      :navi_type
+    )
+  end
 end

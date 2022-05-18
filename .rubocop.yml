@@ -1,0 +1,14 @@
+AllCops:
+  NewCops: enable
+  Include:
+    - '**/*.rb'
+  Exclude:
+    - 'db/**/*'
+    - 'tmp/**'
+    - 'bin/bundle'
+    - 'Dockerfile*'
+    - 'Gemfile*'
+Style/Documentation:
+  Enabled: false
+Metrics/AbcSize:
+  Max: 20

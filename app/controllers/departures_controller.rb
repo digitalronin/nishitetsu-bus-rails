@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DeparturesController < ApplicationController
   def show
     @from = BusStop.find(params[:from])
@@ -8,7 +10,7 @@ class DeparturesController < ApplicationController
 
     html = api.live_departures(
       from: @from.api_id,
-      to: @to.api_id,
+      to: @to.api_id
     )
 
     list = Nishitetsu::DeparturesParser.new(html).departures

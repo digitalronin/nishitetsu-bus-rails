@@ -16,14 +16,19 @@
 # Uncomment the following lines to make the configuration take effect.
 
 PreCommit:
-  RuboCop:
-    enabled: true
-    on_warn: fail # Treat all warnings as failures
-
   TrailingWhitespace:
     enabled: true
     exclude:
       - '**/db/structure.sql' # Ignore trailing whitespace in generated files
+
+  StandardRB:
+    enabled: true
+    required: true
+    command: [
+      'bash',
+      '-c',
+      'git diff --name-only --diff-filter=d --cached | grep "\\.rb$" | xargs standardrb --force-exclusion',
+    ]
 
 PostCheckout:
   ALL: # Special hook name that customizes all hooks of this type

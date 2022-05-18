@@ -1,4 +1,3 @@
-require "net/http"
+# frozen_string_literal: true
 
-class Nishitetsu
-end
+require "net/http"
