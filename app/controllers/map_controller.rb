@@ -28,7 +28,7 @@ class MapController < ApplicationController
         max_lat: params[:maxLat], max_lon: params[:maxLon]
       )
     else
-      connected_stops_within_box BusStop.find(params[:from_bus_stop])
+      connected_stops_within_box(BusStop.find(params[:from_bus_stop]), params)
     end
 
     render json: {busStops: bus_stops}

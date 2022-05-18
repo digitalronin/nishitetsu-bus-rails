@@ -2,8 +2,6 @@
 
 class Nishitetsu
   class Api
-    API_URL = 'http://busnavi01.nishitetsu.ne.jp'
-
     def initialize
       # TODO
     end
@@ -21,7 +19,7 @@ class Nishitetsu
     # e.g. 0001,660102
     def bus_routes_for_stop(key)
       params = {
-        f: 'busikisaki',
+        f: "busikisaki",
         list: key,
         ns: 1,
         tei_type: 0
@@ -35,13 +33,13 @@ class Nishitetsu
     private
 
     def bus_stop_map_url(lat:, lon:, area:)
-      params = { f: 'maptei', lat:, lon:, area: }
+      params = {f: "maptei", lat:, lon:, area:}
       arr = params.map { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }
       arr += [
-        CGI.escape('tei_type[]=0'),
-        CGI.escape('tei_type[]=1')
+        CGI.escape("tei_type[]=0"),
+        CGI.escape("tei_type[]=1")
       ]
-      querystring = arr.join('&')
+      querystring = arr.join("&")
       "#{API_URL}/map?#{querystring}"
     end
 
@@ -59,7 +57,7 @@ class Nishitetsu
     end
 
     def querystring(params)
-      params.map { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join('&')
+      params.map { |k, v| "#{k}=#{CGI.escape(v.to_s)}" }.join("&")
     end
   end
 end
