@@ -27,6 +27,7 @@ provision:
 	$(PREFIX) up -d postgres
 	$(PREFIX) run --no-deps --rm rails /bin/bash -c bin/setup
 	$(PREFIX) run --no-deps --rm rails yarn
+	make load-reference-data
 
 shell:
 	$(PREFIX) run --rm rails bash
@@ -40,4 +41,3 @@ load-reference-data:
 
 exec-onto-rails-container:
 	docker exec -it nishitetsubusrails-application-web-1 bash
-
