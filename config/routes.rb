@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   # root "articles#index"
 
-  root "map#show"
+  get "/", to: redirect("/#{I18n.locale}/map")
 
   scope "/:locale" do
     get "/map", to: "map#show", as: "map"
