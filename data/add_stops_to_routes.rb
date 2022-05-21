@@ -13,7 +13,7 @@ require "json"
 data = JSON.parse(File.read("data/bus-data.json"))
 
 data["routes"].each do |name, bus_stops|
-  route = BusRoute.create(name:)
+  route = BusRoute.find_by_name(name)
   puts "Route: #{name}"
   bus_stops.each do |tei_cd|
     if (bus_stop = BusStop.find_by_tei_cd(tei_cd))

@@ -24,15 +24,13 @@
 #  navi_type        :string
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
+#  bus_route_ids    :text             default("")
 #
 class BusStop < ApplicationRecord
   scope :within_box, lambda { |min_lat:, max_lat:, min_lon:, max_lon:|
     where("(latitude between ? AND ?) AND (longitude between ? AND ?)", min_lat, max_lat, min_lon, max_lon)
       .limit(50)
   }
-
-  has_many :route_stops
-  has_many :bus_routes, through: :route_stops
 
   def api_id
     [jigyosha_cd, tei_cd].join(",")
@@ -55,5 +53,19 @@ class BusStop < ApplicationRecord
 
   def display_name
     I18n.locale == :ja ? tei_name : tei_kana.romaji.capitalize.gsub("(", " (")
+  end
+
+  def add_bus_route(bus_route_id)
+    ids = bus_route_ids_array.push(bus_route_id).uniq
+    self.bus_route_ids = ids.join(",")
+    save
+  end
+
+  def bus_routes
+    BusRoute.find bus_route_ids_array
+  end
+
+  def bus_route_ids_array
+    bus_route_ids.split(",").map(&:to_i)
   end
 end
