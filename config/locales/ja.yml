@@ -6,3 +6,5 @@ ja:
   map: "地図"
   express_only: "都市高経由"
   slow_and_fast: "全て表示"
+  express_bus: "都市高"
+  ordinary_bus: "普通"
