@@ -1,12 +1,19 @@
-<h3 class="valign-wrapper departures">
-  <%= @from.display_name %>
-  &nbsp; <i class="material-icons">arrow_forward</i> &nbsp;
-  <%= @to.display_name %>
-  &nbsp;
-  <a href="<%= departures_url(@to, @from) %>" data-turbo="false" class="valign-wrapper departures">
-    <i class="material-icons">swap_horiz</i>
-  </a>
-</h3>
+<div class="row departure-header valign-wrapper">
+  <div class="col s9">
+    <span class="text"><%= @from.display_name %></span>
+    <i class="material-icons">arrow_forward</i>
+    <%= @to.display_name %>
+    <a href="<%= departures_url(@to, @from) %>" data-turbo="false">
+      <i class="material-icons">swap_horiz</i>
+    </a>
+  </div>
+  <div class="col s1 right-align">
+    <%= Time.now.strftime("%H:%M:%S") %>
+    <a href="javascript: window.location.reload()">
+      <i class="material-icons">refresh</i>
+    </a>
+  </div>
+</div>
 
 <%= turbo_frame_tag "departures" do %>
   <ul class="collection with-header">
