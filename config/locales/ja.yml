@@ -8,3 +8,4 @@ ja:
   slow_and_fast: "全て表示"
   express_bus: "都市高"
   ordinary_bus: "普通"
+  location_unavailable: "位置情報サービスは利用できません"

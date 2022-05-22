@@ -13,23 +13,42 @@ export default class extends Controller {
 
   connect() {
     this.map = L.map(this.placeholderTarget).setView([this.latitudeValue, this.longitudeValue], 16);
+
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
       subdomains: ['a', 'b', 'c']
     }).addTo(this.map);
 
-    // This only seems to work *some* of the time on the desktop. I'm not sure yet whether it
-    // works at all on my phone.
     L.easyButton('<i class="material-icons crosshairs">gps_fixed</i>', (_btn, map) => {
-      map.locate({setView: true, maxZoom: 16});
+      this.panToCurrentPosition(map)
     }).addTo(this.map);
 
     this.map.on("moveend", async () => this.showBusStops())
+
     this.showBusStops()
+    this.panToCurrentPosition(this.map)
   }
 
   disconnect() {
     this.map.remove()
+  }
+
+  async panToCurrentPosition(map) {
+    if ('geolocation' in navigator) {
+      // https://stackoverflow.com/a/31916631/794111
+      navigator.geolocation.getCurrentPosition(() => {}, () => {}, {});
+
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          const p = position.coords
+          map.panTo([p.latitude, p.longitude])
+        },
+        error => {alert(error.message)},
+        {maximumAge: 60000, timeout: 5000, enableHighAccuracy: true}
+      )
+    } else {
+      alert(this.locationUnavailableValue)
+    }
   }
 
   async showBusStops() {

@@ -40,3 +40,4 @@ en:
   slow_and_fast: "Show All"
   express_bus: "Express"
   ordinary_bus: "Ordinary"
+  location_unavailable: "Location services are not available"

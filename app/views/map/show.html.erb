@@ -5,6 +5,7 @@
   "map-longitude-value": @longitude,
   "map-from-value": @from ? @from.id : "",
   "map-to-value": @to ? @to.id : "",
+  "map-location-unavailable-value": t(:location_unavailable),
 }) do %>
   <%= turbo_frame_tag "journey" do %>
     <%= render partial: "journey", locals: { from: @from, to: @to } %>
