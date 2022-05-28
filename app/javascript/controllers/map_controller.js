@@ -8,7 +8,9 @@ export default class extends Controller {
     latitude: Number,
     longitude: Number,
     from: String,
-    to: String
+    to: String,
+    setJourneyFrom: String,
+    setJourneyTo: String
   }
 
   connect() {
@@ -98,25 +100,39 @@ export default class extends Controller {
     const colour = this.getColour(busStop)
     const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
 
-    // On my phone, a touch generates this event, but the openPopup call doesn't seem to work
-    marker.on("click", () => {
-      marker.openPopup()
-      this.updateJourney(marker, busStop)
-    })
-
-    // On my phone, a longish press generates this event
-    marker.on("touch", () => {
-      marker.openPopup()
-    })
-
     const routes = this.busRoutesToHtmlString(busStop.routes)
-    const popupHtml = `<b>${busStop.display_name}</b><br /><hr />${routes}`
 
-    marker.on("mouseover", () => {marker.openPopup()})
+    const popupHtml = `
+      <div class="map popup">
+        <b>${busStop.display_name}</b><br />
+        <a class="set-journey-from">${this.setJourneyFromValue}</a>
+        |
+        <a class="set-journey-to">${this.setJourneyToValue}</a>
+        <br />
+        <hr />
+        ${routes}
+      </div>
+    `
+
     marker.bindPopup(popupHtml, {closeButton: false}).openPopup();
+
+    marker.on("click", () => this.showPopup(marker, busStop))
+    marker.on("mouseover", () => this.showPopup(marker, busStop))
 
     return marker
   }
+
+  showPopup(marker, busStop) {
+    marker.openPopup()
+
+    // Bind events to popup links
+    const fromLink = document.getElementsByClassName("set-journey-from")[0]
+    fromLink.onclick = () => this.setJourneyFrom(busStop)
+
+    const toLink = document.getElementsByClassName("set-journey-to")[0]
+    toLink.onclick = () => this.setJourneyTo(busStop)
+  }
+
 
   busRoutesToHtmlString(routes) {
     let rtn = ''
@@ -151,14 +167,18 @@ export default class extends Controller {
     return new MyIcon({iconUrl: `/${colour}-map-marker.png`})
   }
 
-  // set from|to, or reset the journey endpoints
-  updateJourney(_marker, busStop) {
-    if (this.fromValue === "") {
-      this.fromValue = busStop.id
-    } else {
-      this.toValue = busStop.id
-    }
+  setJourneyFrom(busStop) {
+    this.fromValue = busStop.id
+    this.updateJourney()
+  }
 
+  setJourneyTo(busStop) {
+    this.toValue = busStop.id
+    this.updateJourney()
+  }
+
+  // set from|to, or clear the journey endpoints
+  updateJourney() {
     this.showBusStops()
 
     const params = {
@@ -172,10 +192,9 @@ export default class extends Controller {
     })
   }
 
-  resetJourney() {
+  clearJourney() {
     this.fromValue = ""
     this.toValue = ""
-    this.showBusStops()
+    this.updateJourney()
   }
 }
-

@@ -6,6 +6,8 @@
   "map-from-value": @from ? @from.id : "",
   "map-to-value": @to ? @to.id : "",
   "map-location-unavailable-value": t(:location_unavailable),
+  "map-set-journey-from-value": t(:set_journey_from),
+  "map-set-journey-to-value": t(:set_journey_to),
 }) do %>
   <%= turbo_frame_tag "journey" do %>
     <%= render partial: "journey", locals: { from: @from, to: @to } %>

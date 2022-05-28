@@ -41,3 +41,5 @@ en:
   express_bus: "Express"
   ordinary_bus: "Ordinary"
   location_unavailable: "Location services are not available"
+  set_journey_from: "Set departure"
+  set_journey_to: "Set destination"

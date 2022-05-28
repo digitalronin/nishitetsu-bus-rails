@@ -28,3 +28,11 @@ footer {
     padding-bottom: 15px;
   }
 }
+
+// Styles used on the Leaflet map
+
+.map.popup {
+  a { cursor: pointer; }
+  .set-journey-from { color: green; }
+  .set-journey-to { color: red; }
+}

@@ -8,20 +8,9 @@
         <input placeholder="<%= t :to %>" id="to" type="text" value="<%= @to ? @to.display_name : "" %>">
       </div>
       <div class="col s2 valign-wrapper">
-        <%
-            clear_disabled = @from.nil? ? "disabled" : ""
-            search_disabled = @to.nil? ? "disabled" : ""
-            if !@to.nil?
-              url = departures_url(@from, @to)
-            end
-        %>
-
-        <a href="#" class="waves-effect waves-light btn-small <%= clear_disabled %>" data-action="click->map#resetJourney"><i class="material-icons">clear</i></a>
-
+        <a href="#" class="waves-effect waves-light btn-small <%= @clear_disabled %>" data-action="click->map#clearJourney"><i class="material-icons">clear</i></a>
         &nbsp;
-
-        <a href="<%= url %>" class="waves-effect waves-light btn-small <%= search_disabled %>" data-turbo="false"><i class="material-icons">search</i></a>
-
+        <a href="<%= @search_url %>" class="waves-effect waves-light btn-small <%= @search_disabled %>" data-turbo="false"><i class="material-icons">search</i></a>
       </div>
     </div>
   </form>

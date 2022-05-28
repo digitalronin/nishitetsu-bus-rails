@@ -4,12 +4,15 @@ class MapController < ApplicationController
   def show
     @latitude = 33.6615143
     @longitude = 130.4384094
+    set_search_and_clear_buttons
+
     render :show
   end
 
   def update_journey
     @from = BusStop.find(params[:from_bus_stop]) unless params[:from_bus_stop].empty?
     @to = BusStop.find(params[:to_bus_stop]) unless params[:to_bus_stop].empty?
+    set_search_and_clear_buttons
 
     respond_to do |format|
       format.turbo_stream do
@@ -35,6 +38,18 @@ class MapController < ApplicationController
   end
 
   private
+
+  def set_search_and_clear_buttons
+    if @from.nil? || @to.nil? || @from == @to
+      @search_disabled = "disabled"
+    else
+      @search_url = departures_url(@from, @to)
+    end
+
+    if @from.nil? && @to.nil?
+      @clear_disabled = "disabled"
+    end
+  end
 
   # Only return bus stops that are inside the map box if they're directly
   # connected to the "from" bus stop

@@ -9,3 +9,5 @@ ja:
   express_bus: "都市高"
   ordinary_bus: "普通"
   location_unavailable: "位置情報サービスは利用できません"
+  set_journey_from: "出発地に選ぶ"
+  set_journey_to: "目的地に選ぶ"
