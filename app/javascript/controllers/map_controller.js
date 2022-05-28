@@ -10,7 +10,8 @@ export default class extends Controller {
     from: String,
     to: String,
     setJourneyFrom: String,
-    setJourneyTo: String
+    setJourneyTo: String,
+    busRoute: String
   }
 
   connect() {
@@ -88,6 +89,7 @@ export default class extends Controller {
       minLon: sw.lng,
       from_bus_stop: this.fromValue,
       to_bus_stop: this.toValue,
+      bus_route: this.busRouteValue,
     }
     const response = await put(this.mapurlValue, {
       body: JSON.stringify(params)

@@ -4,6 +4,7 @@ class MapController < ApplicationController
   def show
     @latitude = 33.6615143
     @longitude = 130.4384094
+    @bus_route = params[:bus_route]
     set_search_and_clear_buttons
 
     render :show
@@ -24,20 +25,30 @@ class MapController < ApplicationController
   end
 
   def update
-    bus_stops = if params[:from_bus_stop].to_s == ""
-      # Get all bus stop that fit inside the current map box
-      BusStop.within_box(
-        min_lat: params[:minLat], min_lon: params[:minLon],
-        max_lat: params[:maxLat], max_lon: params[:maxLon]
-      )
-    else
-      connected_stops_within_box(BusStop.find(params[:from_bus_stop]), params)
-    end
-
-    render json: {busStops: bus_stops}
+    render json: {busStops: bus_stops_to_display(params)}
   end
 
   private
+
+  def bus_stops_to_display(params)
+    if params[:bus_route].to_s != ""
+      only_within_box(
+        BusRoute.find_by_name(params[:bus_route]).bus_stops,
+        params
+      )
+    elsif params[:from_bus_stop].to_s == ""
+      bus_stops_within_box(params)
+    else
+      connected_stops_within_box(BusStop.find(params[:from_bus_stop]), params)
+    end
+  end
+
+  def bus_stops_within_box(params)
+    BusStop.within_box(
+      min_lat: params[:minLat], min_lon: params[:minLon],
+      max_lat: params[:maxLat], max_lon: params[:maxLon]
+    )
+  end
 
   def set_search_and_clear_buttons
     if @from.nil? || @to.nil? || @from == @to
@@ -54,8 +65,11 @@ class MapController < ApplicationController
   # Only return bus stops that are inside the map box if they're directly
   # connected to the "from" bus stop
   def connected_stops_within_box(bus_stop, params)
-    bus_stop
-      .connected_stops
+    only_within_box(bus_stop.connected_stops, params)
+  end
+
+  def only_within_box(list, params)
+    list
       .filter { |bs| bs.latitude <= params[:maxLat] }
       .filter { |bs| bs.longitude <= params[:maxLon] }
       .filter { |bs| bs.latitude >= params[:minLat] }
