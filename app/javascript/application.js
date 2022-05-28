@@ -14,4 +14,7 @@ document.addEventListener('turbo:load', function () {
 
   const drop_triggers = document.querySelectorAll('.dropdown-trigger')
   M.Dropdown.init(drop_triggers)
+
+  const tooltip_elems = document.querySelectorAll('.tooltipped');
+  M.Tooltip.init(tooltip_elems, {});
 });
