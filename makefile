@@ -19,6 +19,9 @@ up:
 down:
 	$(PREFIX) down
 
+deploy:
+	git push heroku main
+
 remove-volumes:
 	$(PREFIX) down --volumes
 
