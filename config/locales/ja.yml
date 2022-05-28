@@ -11,3 +11,4 @@ ja:
   location_unavailable: "位置情報サービスは利用できません"
   set_journey_from: "出発地に選ぶ"
   set_journey_to: "目的地に選ぶ"
+  bus_route: "ルート"

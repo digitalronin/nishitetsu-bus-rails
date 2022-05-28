@@ -1,7 +1,11 @@
 <div class="row">
-  <form class="col s8">
+  <%= form_with url: map_url, class: "col s8" do |form| %>
     <div class="row">
-      <%= render partial: "journey" %>
+      <% if @bus_route.nil? %>
+        <%= render partial: "journey" %>
+      <% else %>
+        <%= render partial: "bus_route" %>
+      <% end %>
     </div>
-  </form>
+  <% end %>
 </div>

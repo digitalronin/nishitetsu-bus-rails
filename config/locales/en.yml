@@ -43,3 +43,4 @@ en:
   location_unavailable: "Location services are not available"
   set_journey_from: "Set departure"
   set_journey_to: "Set destination"
+  bus_route: "Route number"

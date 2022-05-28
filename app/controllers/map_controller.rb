@@ -32,10 +32,10 @@ class MapController < ApplicationController
 
   def bus_stops_to_display(params)
     if params[:bus_route].to_s != ""
-      only_within_box(
-        BusRoute.find_by_name(params[:bus_route]).bus_stops,
-        params
-      )
+      br = BusRoute.find_by_name(params[:bus_route].strip.upcase)
+      Rails.logger.info("found bus route #{params[:bus_route]}: #{br.inspect}")
+      bus_stops = br.nil? ? [] : br.bus_stops
+      only_within_box(bus_stops, params)
     elsif params[:from_bus_stop].to_s == ""
       bus_stops_within_box(params)
     else
