@@ -4,9 +4,11 @@
     <div class="col s1 center-align valign-wrapper" style="font-size: 150%"><%= d.expected_in %></div>
 
     <div class="col s4 center-align">
-      <a class="blue lighten-4 btn-flat">
-        <%= d.route_number %>
-      </a>
+      <%= link_to d.route_number,
+        map_url(bus_route: d.route_number),
+        class: "blue lighten-4 btn-flat",
+        data: { turbo: false }
+      %>
     </div>
     <div class="col s4 center-align">
       <% if d.express? then %>
