@@ -41,7 +41,16 @@ export default class extends Controller {
       navigator.geolocation.getCurrentPosition(
         position => {
           const p = position.coords
-          map.panTo([p.latitude, p.longitude])
+          const point = [p.latitude, p.longitude]
+          map.panTo(point)
+
+          // Show user's position on map
+          L.circle(point, {
+            color: 'blue',
+            fillColor: '#30f',
+            fillOpacity: 1,
+            radius: 8
+          }).addTo(map);
         },
         error => {alert(error.message)},
         {maximumAge: 60000, timeout: 5000, enableHighAccuracy: true}
