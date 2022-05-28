@@ -171,16 +171,16 @@ export default class extends Controller {
 
   setJourneyFrom(busStop) {
     this.fromValue = busStop.id
-    this.updateJourney()
+    this.updateDisplay()
   }
 
   setJourneyTo(busStop) {
     this.toValue = busStop.id
-    this.updateJourney()
+    this.updateDisplay()
   }
 
   // set from|to, or clear the journey endpoints
-  updateJourney() {
+  updateDisplay() {
     this.showBusStops()
 
     const params = {
@@ -197,6 +197,6 @@ export default class extends Controller {
   clearJourney() {
     this.fromValue = ""
     this.toValue = ""
-    this.updateJourney()
+    this.updateDisplay()
   }
 }
