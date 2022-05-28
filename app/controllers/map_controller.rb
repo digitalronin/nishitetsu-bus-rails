@@ -17,7 +17,7 @@ class MapController < ApplicationController
     respond_to do |format|
       format.turbo_stream do
         render turbo_stream: [
-          turbo_stream.update("journey", partial: "map/journey", locals: {from: @from, to: @to})
+          turbo_stream.update("controls", partial: "map/controls", locals: {from: @from, to: @to})
         ]
       end
     end

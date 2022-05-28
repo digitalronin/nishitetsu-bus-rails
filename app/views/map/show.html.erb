@@ -9,8 +9,8 @@
   "map-set-journey-from-value": t(:set_journey_from),
   "map-set-journey-to-value": t(:set_journey_to),
 }) do %>
-  <%= turbo_frame_tag "journey" do %>
-    <%= render partial: "journey", locals: { from: @from, to: @to } %>
+  <%= turbo_frame_tag "controls" do %>
+    <%= render partial: "controls", locals: { from: @from, to: @to } %>
   <% end %>
 
   <!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
