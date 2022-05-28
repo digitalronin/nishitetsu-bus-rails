@@ -1,0 +1,11 @@
+<div class="input-field col s2">
+  <input placeholder="<%= t :from %>" id="from" type="text" value="<%= @from ? @from.display_name : "" %>">
+</div>
+<div class="input-field col s2">
+  <input placeholder="<%= t :to %>" id="to" type="text" value="<%= @to ? @to.display_name : "" %>">
+</div>
+<div class="col s2 valign-wrapper">
+  <a href="#" class="waves-effect waves-light btn-small <%= @clear_disabled %>" data-action="click->map#clearJourney"><i class="material-icons">clear</i></a>
+  &nbsp;
+  <a href="<%= @search_url %>" class="waves-effect waves-light btn-small <%= @search_disabled %>" data-turbo="false"><i class="material-icons">search</i></a>
+</div>
