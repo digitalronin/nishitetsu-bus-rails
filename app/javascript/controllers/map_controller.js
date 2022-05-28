@@ -11,7 +11,8 @@ export default class extends Controller {
     to: String,
     setJourneyFrom: String,
     setJourneyTo: String,
-    busRoute: String
+    busRoute: String,
+    viewType: String,
   }
 
   connect() {
@@ -185,7 +186,9 @@ export default class extends Controller {
 
     const params = {
       from_bus_stop: this.fromValue,
-      to_bus_stop: this.toValue
+      to_bus_stop: this.toValue,
+      bus_route: this.busRouteValue,
+      view_type: this.viewTypeValue,
     }
 
     patch(this.mapurlValue, {

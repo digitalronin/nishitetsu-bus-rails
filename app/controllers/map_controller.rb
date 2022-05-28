@@ -4,7 +4,8 @@ class MapController < ApplicationController
   def show
     @latitude = 33.6615143
     @longitude = 130.4384094
-    @bus_route = params[:bus_route]
+    @view_type = params[:view_type]
+    @bus_route = params[:bus_route].to_s.strip.upcase
     set_search_and_clear_buttons
 
     render :show

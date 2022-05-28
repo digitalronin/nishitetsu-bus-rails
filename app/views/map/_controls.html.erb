@@ -1,10 +1,10 @@
 <div class="row">
   <%= form_with url: map_url, class: "col s8" do |form| %>
     <div class="row">
-      <% if @bus_route.nil? %>
-        <%= render partial: "journey" %>
-      <% else %>
+      <% if @view_type == "bus_route" %>
         <%= render partial: "bus_route" %>
+      <% else %>
+        <%= render partial: "journey" %>
       <% end %>
     </div>
   <% end %>

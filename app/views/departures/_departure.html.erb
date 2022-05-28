@@ -5,7 +5,7 @@
 
     <div class="col s4 center-align">
       <%= link_to d.route_number,
-        map_url(bus_route: d.route_number),
+        map_url(bus_route: d.route_number, view_type: "bus_route"),
         class: "blue lighten-4 btn-flat",
         data: { turbo: false }
       %>

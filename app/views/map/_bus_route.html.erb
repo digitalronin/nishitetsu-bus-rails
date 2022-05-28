@@ -1,4 +1,5 @@
 <%= form_with(url: map_url) do |form| %>
+  <%= hidden_field_tag :view_type, @view_type %>
   <div class="input-field col s2">
     <%= text_field_tag "bus_route", @bus_route, placeholder: t(:bus_route) %>
   </div>
@@ -6,5 +7,13 @@
     <%= form.button "data-turbo": false, class: "waves-effect waves-light btn-small" do %>
       <i class="material-icons">search</i>
     <% end %>
+    <a href="<%= map_url(view_type: "journey") %>"
+       class="waves-effect waves-light btn-small tooltipped view-changer"
+       data-turbo="false"
+       data-tooltip="Change to journey view"
+       data-position="top"
+       >
+      <i class="material-icons">map</i>
+    </a>
   </div>
 <% end %>
