@@ -19,7 +19,7 @@
   <ul class="collection with-header">
     <li class="collection-header">
       <div class="row valign-wrapper">
-        <div class="col s2">in (min.)</div>
+        <div class="col s2"><%= t(:expected_in) %></div>
         <div class="col s7">
           <% if @express_only %>
             <%= link_to t(:slow_and_fast),
@@ -35,7 +35,7 @@
           %>
       <% end %>
         </div>
-        <div class="col s1">Should arrive</div>
+        <div class="col s1"><%= t(:should_arrive) %></div>
       </div>
     </li>
 
