@@ -14,3 +14,5 @@ ja:
   bus_route: "路線"
   change_to_route_view: "路線を見る"
   change_to_journey_view: "道順案内"
+  should_arrive: "到着予定"
+  expected_in: "何分で期限"

@@ -46,3 +46,5 @@ en:
   bus_route: "Route number"
   change_to_route_view: "Change to route view"
   change_to_journey_view: "Change to journey view"
+  should_arrive: "Should arrive"
+  expected_in: "in (min.)"
