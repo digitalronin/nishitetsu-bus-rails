@@ -56,7 +56,7 @@ export default class extends Controller {
             radius: 8
           }).addTo(map);
         },
-        error => {alert(error.message)},
+        error => {console.log(error.message)},
         {maximumAge: 60000, timeout: 5000, enableHighAccuracy: true}
       )
     } else {
