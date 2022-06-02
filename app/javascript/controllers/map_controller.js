@@ -19,6 +19,7 @@ export default class extends Controller {
     setJourneyTo: String,
     busRoute: String,
     viewType: String,
+    searchurl: String,
   }
 
   connect() {
@@ -48,7 +49,7 @@ export default class extends Controller {
 
     if (this.fromValue !== "" && this.toValue !== "") {
       // both from and to bus stops have been set
-      window.location = this.searchTarget.dataset.search_url
+      window.location = this.searchurlValue.replace("FROM", this.fromValue).replace("TO", this.toValue)
       return
     }
 

@@ -6,6 +6,7 @@ class MapController < ApplicationController
     @longitude = 130.4384094
     @view_type = params[:view_type]
     @bus_route = params[:bus_route].to_s.strip.upcase
+    @search_url = departures_url("FROM", "TO")
 
     render :show
   end
