@@ -38,6 +38,12 @@ shell:
 rails-c:
 	$(RAILS) console
 
+# Get the latest data from Nishitetsu (takes a couple of hours)
+renew-reference-data:
+	rm -f data/bus-stops/*.json
+	rm -f data/bus-numbers/*.json
+	data/fetch-data.rb
+
 load-reference-data:
 	$(RAILS) runner data/create_bus_stops.rb
 	$(RAILS) runner data/create_bus_routes.rb
