@@ -2,7 +2,13 @@ import {Controller} from "@hotwired/stimulus"
 import {put, patch} from '@rails/request.js'
 
 export default class extends Controller {
-  static targets = ["placeholder"]
+  static targets = [
+    "placeholder",
+    "search",
+    "fromtext",
+    "totext",
+  ]
+
   static values = {
     mapurl: String,
     latitude: Number,
@@ -35,6 +41,48 @@ export default class extends Controller {
 
   disconnect() {
     this.map.remove()
+  }
+
+  async search() {
+    let searchString = ""
+
+    if (this.fromValue !== "" && this.toValue !== "") {
+      // both from and to bus stops have been set
+      window.location = this.searchTarget.dataset.search_url
+      return
+    }
+
+    const from = this.fromtextTarget.value
+    const to = this.totextTarget.value
+
+    if (this.fromValue === "" && this.toValue === "") {
+      // neither from/to bus stop is set
+      searchString = from !== "" ? from : to
+    } else if (this.fromValue === "") {
+      // to bus stop is set
+      searchString = from
+    } else if (this.toValue === "") {
+      // from bus stop is set
+      searchString = to
+    }
+
+    if (searchString !== "") {
+      const str = `${searchString}, FUKUOKA`
+      const url = new URL("https://nominatim.openstreetmap.org/search")
+      url.searchParams.append("country", "JP")
+      url.searchParams.append("format", "json")
+      url.searchParams.append("q", str)
+      const result = await fetch(url, {
+        headers: {
+          "mode": "no-cors",
+          "User-Agent": "Unofficial Nishitetsu Bus Rails app.",
+          "Referer": "https://github.com/digitalronin/nishitetsu-bus-rails"
+        }
+      })
+      const data = await result.json()
+      const {lat, lon} = data[0]
+      this.map.panTo([lat, lon])
+    }
   }
 
   async panToCurrentPosition(map) {
