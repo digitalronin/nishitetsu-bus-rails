@@ -1,4 +1,10 @@
 # https://remarkablemark.org/blog/2021/03/12/github-actions-deploy-to-heroku/
+name: Deploy
+on:
+  push:
+    branches:
+      - main
+
 jobs:
   custom-deploy:
     runs-on: ubuntu-latest
