@@ -11,12 +11,12 @@ export default class extends Controller {
   ]
 
   static values = {
+    url: String,
     latitude: Number,
     longitude: Number,
   }
 
   connect() {
-    console.log("whatever")
     this.map = L.map(this.placeholderTarget).setView([this.latitudeValue, this.longitudeValue], 16);
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -35,5 +35,24 @@ export default class extends Controller {
 
   disconnect() {
     this.map.remove()
+  }
+
+  clearJourney() {
+    this.fromValue = ""
+    this.toValue = ""
+    this.updateDisplay()
+  }
+
+  // set from|to, or clear the journey endpoints
+  updateDisplay() {
+    const params = {
+      from: this.fromValue,
+      to: this.toValue,
+    }
+
+    patch(this.urlValue, {
+      body: JSON.stringify(params),
+      responseKind: "turbo-stream"
+    })
   }
 }
