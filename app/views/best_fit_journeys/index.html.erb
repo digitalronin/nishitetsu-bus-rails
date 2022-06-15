@@ -1,0 +1,18 @@
+<%= tag.div(data: {
+  controller: "bfj",
+  "bfj-latitude-value": @latitude,
+  "bfj-longitude-value": @longitude,
+  "bfj-location-unavailable-value": t(:location_unavailable),
+}) do %>
+
+  <%= turbo_frame_tag "controls" do %>
+    <%= render partial: "controls", locals: { from: @from, to: @to } %>
+  <% end %>
+
+  <!-- https://discuss.hotwired.dev/t/leafletjs-with-stimulusjs-on-rails-6/1343/2 -->
+  <%= tag.div(id: "mapid",
+              class: "z-10 mb-4 h-64 bg-gray-200",
+              style: "height: 600px",
+              data: { "bfj-target": "placeholder" }
+             ) %>
+<% end %>

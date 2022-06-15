@@ -1,0 +1,38 @@
+<div class="row">
+  <%= form_with url: '#', class: "col s8" do |form| %>
+    <div class="row">
+      <div class="input-field col s3">
+        <input
+            placeholder="<%= t :from %>"
+            data-bfj-target="fromtext"
+            id="from"
+            type="text"
+            value="<%= @from ? @from.display_name : "" %>"
+            >
+      </div>
+      <div class="input-field col s3">
+        <input
+            placeholder="<%= t :to %>"
+            data-bfj-target="totext"
+            id="to"
+            type="text"
+            value="<%= @to ? @to.display_name : "" %>"
+            >
+      </div>
+      <div class="col s6 valign-wrapper">
+        <a href="#" class="waves-effect waves-light btn-small view-changer" data-action="click->bfj#clearJourney"><i class="material-icons">clear</i></a>
+
+        <a href="#"
+           data-action="click->bfj#search"
+           data-bfj-target="search"
+           data-search_url="<%= @search_url %>"
+           class="waves-effect waves-light btn-small"
+           data-turbo="false"
+           >
+           <i class="material-icons">search</i>
+        </a>
+      </div>
+
+    </div>
+  <% end %>
+</div>
