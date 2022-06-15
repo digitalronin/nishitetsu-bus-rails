@@ -8,6 +8,7 @@ class BestFitJourneysController < ApplicationController
 
   def update_journey
     @from = params[:from]
+    @to = params[:to]
 
     respond_to do |format|
       format.turbo_stream do
