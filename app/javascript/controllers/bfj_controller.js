@@ -14,6 +14,10 @@ export default class extends Controller {
     url: String,
     latitude: Number,
     longitude: Number,
+    from: String,
+    to: String,
+    setJourneyFrom: String,
+    setJourneyTo: String,
   }
 
   connect() {
@@ -39,11 +43,31 @@ export default class extends Controller {
   }
 
   mapClick(e) {
-    this.fromMarker.setLatLng(e.latlng).addTo(this.map)
-    this.popup
-      .setLatLng(e.latlng)
-      .setContent(`Clicked at ${e.latlng.toString()}`)
-      .openOn(this.map)
+    const popupHtml = `
+      <div class="map popup">
+        <b>Something</b><br />
+        <a class="set-journey-from">${this.setJourneyFromValue}</a>
+        |
+        <a class="set-journey-to">${this.setJourneyToValue}</a>
+      </div>
+    `
+
+    this.fromMarker
+      .setLatLng(e.latlng).addTo(this.map)
+      .bindPopup(popupHtml, {closeButton: false})
+      .openPopup()
+
+    // Bind events to popup links
+    const fromLink = document.getElementsByClassName("set-journey-from")[0]
+    fromLink.onclick = () => this.setJourneyFrom(e.latlng)
+
+    const toLink = document.getElementsByClassName("set-journey-to")[0]
+    toLink.onclick = () => this.setJourneyTo(e.latlng)
+
+    // this.popup
+    //   .setLatLng(e.latlng)
+    //   .setContent(`Clicked at ${e.latlng.toString()}`)
+    //   .openOn(this.map)
   }
 
   disconnect() {
@@ -83,4 +107,9 @@ export default class extends Controller {
     return new MyIcon({iconUrl: `/${colour}-map-marker.png`})
   }
 
+  setJourneyFrom(point) {
+    console.log("setJourneyFrom", point)
+    this.fromValue = `${point.lat},${point.lng}`
+    this.updateDisplay()
+  }
 }
