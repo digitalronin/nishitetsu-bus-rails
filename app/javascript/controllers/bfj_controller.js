@@ -28,9 +28,22 @@ export default class extends Controller {
       this.panToCurrentPosition(map)
     }).addTo(this.map);
 
+    this.map.on("click", (e) => {this.mapClick(e)})
+
+    this.popup = L.popup()
+
     // this.map.on("moveend", async () => this.showBusStops())
     // this.showBusStops()
     // this.map.panToCurrentPosition(this.map)
+  }
+
+  mapClick(e) {
+    console.log("click", e)
+    console.log("popup", this.popup)
+    this.popup
+      .setLatLng(e.latlng)
+      .setContent(`Clicked at ${e.latlng.toString()}`)
+      .openOn(this.map)
   }
 
   disconnect() {
