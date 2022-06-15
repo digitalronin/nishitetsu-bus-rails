@@ -47,7 +47,6 @@ export default class extends Controller {
   async search(e) {
     e.preventDefault()
     if (this.fromValue !== "" && this.toValue !== "") {
-      console.log("search")
       this.updateDisplay()
       return
     }
@@ -56,7 +55,6 @@ export default class extends Controller {
   mapClick(e) {
     const popupHtml = `
       <div class="map popup">
-        <b>Something</b><br />
         <a class="set-journey-from">${this.setJourneyFromValue}</a>
         |
         <a class="set-journey-to">${this.setJourneyToValue}</a>
