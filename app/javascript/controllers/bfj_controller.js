@@ -31,6 +31,7 @@ export default class extends Controller {
     this.map.on("click", (e) => {this.mapClick(e)})
 
     this.popup = L.popup()
+    this.fromMarker = L.marker([], {icon: this.icon("green")})
 
     // this.map.on("moveend", async () => this.showBusStops())
     // this.showBusStops()
@@ -38,8 +39,7 @@ export default class extends Controller {
   }
 
   mapClick(e) {
-    console.log("click", e)
-    console.log("popup", this.popup)
+    this.fromMarker.setLatLng(e.latlng).addTo(this.map)
     this.popup
       .setLatLng(e.latlng)
       .setContent(`Clicked at ${e.latlng.toString()}`)
@@ -68,4 +68,19 @@ export default class extends Controller {
       responseKind: "turbo-stream"
     })
   }
+
+  // TODO: shared with MapController
+  icon(colour) {
+    const MyIcon = L.Icon.extend({
+      options: {
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+      }
+    });
+
+    return new MyIcon({iconUrl: `/${colour}-map-marker.png`})
+  }
+
 }
