@@ -35,7 +35,8 @@ export default class extends Controller {
     this.map.on("click", (e) => {this.mapClick(e)})
 
     this.popup = L.popup()
-    this.fromMarker = L.marker([], {icon: this.icon("green")})
+    this.marker = L.marker()
+    this.fromMarker = L.marker()
 
     // this.map.on("moveend", async () => this.showBusStops())
     // this.showBusStops()
@@ -52,7 +53,7 @@ export default class extends Controller {
       </div>
     `
 
-    this.fromMarker
+    this.marker
       .setLatLng(e.latlng).addTo(this.map)
       .bindPopup(popupHtml, {closeButton: false})
       .openPopup()
@@ -109,7 +110,21 @@ export default class extends Controller {
 
   setJourneyFrom(point) {
     console.log("setJourneyFrom", point)
+
+    this.marker.remove()
+
     this.fromValue = `${point.lat},${point.lng}`
+
+    this.fromMarker
+      .setLatLng(point)
+      .setIcon(this.icon("green"))
+      .addTo(this.map)
+
     this.updateDisplay()
+
+    // this.marker
+    //   .setLatLng(e.latlng).addTo(this.map)
+    //   .bindPopup(popupHtml, {closeButton: false})
+    //   .openPopup()
   }
 }
