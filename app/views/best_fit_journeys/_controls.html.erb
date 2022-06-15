@@ -22,12 +22,12 @@
       <div class="col s6 valign-wrapper">
         <a href="#" class="waves-effect waves-light btn-small view-changer" data-action="click->bfj#clearJourney"><i class="material-icons">clear</i></a>
 
+        <% search_disabled = (@from.nil? || @to.nil?) ? "disabled" : "" %>
+
         <a href="#"
            data-action="click->bfj#search"
            data-bfj-target="search"
-           data-search_url="<%= @search_url %>"
-           class="waves-effect waves-light btn-small"
-           data-turbo="false"
+           class="<%= search_disabled %> waves-effect waves-light btn-small"
            >
            <i class="material-icons">search</i>
         </a>

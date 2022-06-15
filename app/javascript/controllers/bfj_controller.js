@@ -44,6 +44,15 @@ export default class extends Controller {
     // this.map.panToCurrentPosition(this.map)
   }
 
+  async search(e) {
+    e.preventDefault()
+    if (this.fromValue !== "" && this.toValue !== "") {
+      console.log("search")
+      this.updateDisplay()
+      return
+    }
+  }
+
   mapClick(e) {
     const popupHtml = `
       <div class="map popup">
