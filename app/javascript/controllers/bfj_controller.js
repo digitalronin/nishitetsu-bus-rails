@@ -79,6 +79,9 @@ export default class extends Controller {
   clearJourney() {
     this.fromValue = ""
     this.toValue = ""
+    this.marker.remove()
+    this.fromMarker.remove()
+    this.toMarker.remove()
     this.updateDisplay()
   }
 
