@@ -19,7 +19,8 @@ Rails.application.routes.draw do
     get "/departures/:from/:to", to: "departures#show", as: "departures"
 
     get "/journeys", to: "journeys#index", as: "my_journeys"
+
     get "/bfj", to: "best_fit_journeys#index", as: "bfj"
-    patch "/bfj", to: "best_fit_journeys#update_journey"
+    patch "/bfj", to: "best_fit_journeys#find_journey"
   end
 end

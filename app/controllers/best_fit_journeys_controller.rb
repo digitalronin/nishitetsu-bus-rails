@@ -6,7 +6,7 @@ class BestFitJourneysController < ApplicationController
     @longitude = 130.4242298
   end
 
-  def update_journey
+  def find_journey
     @from = params[:from]
     @to = params[:to]
 
