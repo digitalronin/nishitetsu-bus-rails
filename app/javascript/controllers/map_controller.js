@@ -1,6 +1,8 @@
 import {Controller} from "@hotwired/stimulus"
 import {put, patch} from '@rails/request.js'
 
+import {BusStopMapUtils} from "./lib/bus_stop_map_utils.js"
+
 export default class extends Controller {
   static targets = [
     "placeholder",
@@ -23,6 +25,8 @@ export default class extends Controller {
   }
 
   connect() {
+    this.bsmu = new BusStopMapUtils()
+
     this.map = L.map(this.placeholderTarget).setView([this.latitudeValue, this.longitudeValue], 16);
 
     L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -31,13 +35,13 @@ export default class extends Controller {
     }).addTo(this.map);
 
     L.easyButton('<i class="material-icons crosshairs">gps_fixed</i>', (_btn, map) => {
-      this.panToCurrentPosition(map)
+      this.bsmu.panToCurrentPosition(map)
     }).addTo(this.map);
 
     this.map.on("moveend", async () => this.showBusStops())
 
     this.showBusStops()
-    this.panToCurrentPosition(this.map)
+    this.bsmu.panToCurrentPosition(this.map)
   }
 
   disconnect() {
@@ -86,46 +90,6 @@ export default class extends Controller {
     }
   }
 
-  async panToCurrentPosition(map) {
-    if ('geolocation' in navigator) {
-      // https://stackoverflow.com/a/31916631/794111
-      navigator.geolocation.getCurrentPosition(() => {}, () => {}, {});
-
-      navigator.geolocation.getCurrentPosition(
-        position => {
-          const p = position.coords
-          const point = [p.latitude, p.longitude]
-          map.panTo(point)
-
-          // Show user's position on map
-          L.circle(point, {
-            color: 'blue',
-            fillColor: '#30f',
-            fillOpacity: 1,
-            radius: 8
-          }).addTo(map);
-        },
-        error => {console.log(error.message)},
-        {maximumAge: 60000, timeout: 5000, enableHighAccuracy: true}
-      )
-    } else {
-      alert(this.locationUnavailableValue)
-    }
-  }
-
-  async showBusStops() {
-    const data = await this.fetchBusStops()
-    const markers = data.busStops.map(bs => this.getMarker(bs))
-    const lg = L.layerGroup(markers)
-
-    if (this.markersLayer !== undefined) {
-      this.map.removeLayer(this.markersLayer)
-    }
-
-    this.markersLayer = lg
-    this.map.addLayer(this.markersLayer)
-  }
-
   // Get list of bus stops inside the bounds of the currently-displayed map
   async fetchBusStops() {
     const bounds = this.map.getBounds()
@@ -148,13 +112,24 @@ export default class extends Controller {
     return response.json
   }
 
+  async showBusStops() {
+    const data = await this.fetchBusStops()
+    const markers = data.busStops.map(bs => this.getMarker(bs))
+    this.markersLayer = this.bsmu.displayStops({markers, layer: this.markersLayer, map: this.map})
+  }
+
   getMarker(busStop) {
-    const colour = this.getColour(busStop)
-    const marker = L.marker([busStop.latitude, busStop.longitude], {icon: this.icon(colour)})
+    return this.bsmu.getMarker({
+      busStop,
+      colour: this.getColour(busStop),
+      popupHtml: this.popupHtml(busStop),
+      showPopup: (marker, busStop) => {this.showPopup(marker, busStop)}
+    })
+  }
 
+  popupHtml(busStop) {
     const routes = this.busRoutesToHtmlString(busStop.routes)
-
-    const popupHtml = `
+    return `
       <div class="map popup">
         <b>${busStop.display_name}</b><br />
         <a class="set-journey-from">${this.setJourneyFromValue}</a>
@@ -165,13 +140,6 @@ export default class extends Controller {
         ${routes}
       </div>
     `
-
-    marker.bindPopup(popupHtml, {closeButton: false}).openPopup();
-
-    marker.on("click", () => this.showPopup(marker, busStop))
-    marker.on("mouseover", () => this.showPopup(marker, busStop))
-
-    return marker
   }
 
   showPopup(marker, busStop) {
@@ -184,7 +152,6 @@ export default class extends Controller {
     const toLink = document.getElementsByClassName("set-journey-to")[0]
     toLink.onclick = () => this.setJourneyTo(busStop)
   }
-
 
   busRoutesToHtmlString(routes) {
     let rtn = ''
@@ -204,19 +171,6 @@ export default class extends Controller {
     } else {
       return "blue"
     }
-  }
-
-  icon(colour) {
-    const MyIcon = L.Icon.extend({
-      options: {
-        iconSize: [25, 41],
-        iconAnchor: [12, 41],
-        popupAnchor: [1, -34],
-        tooltipAnchor: [16, -28],
-      }
-    });
-
-    return new MyIcon({iconUrl: `/${colour}-map-marker.png`})
   }
 
   setJourneyFrom(busStop) {
