@@ -10,6 +10,7 @@
   "map-location-unavailable-value": t(:location_unavailable),
   "map-set-journey-from-value": t(:set_journey_from),
   "map-set-journey-to-value": t(:set_journey_to),
+  "map-searchurl-value": @search_url,
 }) do %>
   <%= turbo_frame_tag "controls" do %>
     <%= render partial: "controls", locals: { from: @from, to: @to } %>

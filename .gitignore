@@ -34,3 +34,7 @@
 !/app/assets/builds/.keep
 
 /node_modules
+
+data/bus-stops/*.json
+data/bus-numbers/*.json
+data/fukuoka-bus-stops.json

@@ -5,6 +5,18 @@ Bus](https://www.nishitetsu.jp/bus/) services.
 
 View this app [on Heroku](https://nishibus.herokuapp.com)
 
+## Setting up
+
+To start using the app. for the first time:
+
+1. Run `make up` - this will build the development docker image, create docker volumes, and launch the docker compose environment (this initial run WILL NOT WORK completely).
+
+After the image has completed, Ctrl-C to stop the docker compose environment.
+
+2. Run `make provision` - this will rebuild the docker image and install the required software on it, and load the reference data.
+
+3. Run `make up` again - once this is running, you should be good to go.
+
 ## Developing
 
 `make up|down` to start/stop the development environment
@@ -56,7 +68,7 @@ heroku config:set RAILS_MASTER_KEY=$RAILS_MASTER_KEY
 ### Heroku Deployment
 
 ```
-git push heroku main
+make deploy
 ```
 
 > After first deployment, you will need to load the reference data on the
@@ -66,3 +78,4 @@ git push heroku main
 heroku run rails runner data/create_bus_stops.rb
 heroku run rails runner data/create_bus_routes.rb
 ```
+
